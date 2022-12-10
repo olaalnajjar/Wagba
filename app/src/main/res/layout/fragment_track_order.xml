@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TrackOrderFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sfuiext_old"
+        android:text="@string/order_tracking"
+        android:textColor="@color/dark_blue"
+        android:textSize="26sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <View
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/circle_done"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/order_placed"
+        android:textColor="@color/dark_blue"
+        android:textSize="24sp"
+        android:fontFamily="@font/sfuiext_old"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="200dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_order_has_been_placed"
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:fontFamily="@font/nexa_regular"
+        android:layout_marginTop="120dp"
+        android:layout_marginStart="200dp"/>
+
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/online__order"
+        android:contentDescription="@string/order_placed" />
+    <View
+        android:layout_width="1dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/circle_done"/>
+
+    <View
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/circle_done"/>
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/ordered"
+        android:contentDescription="@string/order_confirmed" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/order_confirmed"
+        android:textColor="@color/dark_blue"
+        android:textSize="24sp"
+        android:fontFamily="@font/sfuiext_old"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="200dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_order_has_been_confirmed"
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:fontFamily="@font/nexa_regular"
+        android:layout_marginTop="240dp"
+        android:layout_marginStart="200dp"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="255dp"
+        android:background="@drawable/circle_processing"/>
+    <View
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="380dp"
+        android:background="@drawable/circle_processing"/>
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="340dp"
+        android:src="@drawable/cooking"
+        android:contentDescription="@string/preparing_order" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/preparing_order"
+        android:textColor="@color/dark_blue"
+        android:textSize="24sp"
+        android:fontFamily="@font/sfuiext_old"
+        android:layout_marginTop="350dp"
+        android:layout_marginStart="200dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/your_order_is_being_prepared"
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:fontFamily="@font/nexa_regular"
+        android:layout_marginTop="390dp"
+        android:layout_marginStart="200dp"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="390dp"
+        android:alpha="0.5"
+        android:background="@drawable/circle_waiting"/>
+    <View
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="495dp"
+        android:alpha="0.5"
+        android:background="@drawable/circle_waiting"/>
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="450dp"
+        android:alpha="0.5"
+        android:src="@drawable/food_ready_for_delivery"
+        android:contentDescription="@string/delivery" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/order_out_for_delivery"
+        android:textColor="@color/dark_blue"
+        android:textSize="24sp"
+        android:alpha="0.5"
+        android:fontFamily="@font/sfuiext_old"
+        android:layout_marginTop="465dp"
+        android:layout_marginStart="200dp"/>
+
+
+</FrameLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HistoryFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/order_history"
+        android:textColor="@color/dark_blue"
+        android:textSize="28sp"
+        android:fontFamily="@font/sfuiext_old"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="347dp"
+        android:layout_height="460dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="80dp"
+        android:paddingBottom="80dp"
+        app:cardCornerRadius="15dp"
+        android:elevation="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/history_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:paddingBottom="20dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

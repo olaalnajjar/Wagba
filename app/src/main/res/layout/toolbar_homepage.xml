@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/pink">
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        tools:ignore="UselessParent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="0dp"
+            android:textAlignment="center"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/scripto"
+            android:gravity="center_horizontal"
+            android:text="@string/wagba_name"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+
+        <ImageView
+            android:id="@+id/cart_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginBottom="17dp"
+            android:clickable="true"
+            android:contentDescription="@string/shopping_cart_description"
+            android:focusable="true"
+            android:foregroundGravity="center"
+            android:src="@drawable/ic_baseline_shopping_cart_24" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
