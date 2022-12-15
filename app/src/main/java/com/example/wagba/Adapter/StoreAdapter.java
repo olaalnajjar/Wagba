@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.wagba.R;
 import com.example.wagba.Model.StoreModel;
 
@@ -34,8 +35,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerView
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         StoreModel recyclerData = StoreArrayList.get(position);
         holder.store_title.setText(recyclerData.getTitle());
-        holder.store_img.setImageResource(recyclerData.getImg_id());
-
+        Glide.with(my_context).load(recyclerData.getImg_id()).into(holder.store_img);
     }
 
 
@@ -55,4 +55,6 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerView
             store_img = itemView.findViewById(R.id.store_image);
         }
     }
+
+
 }

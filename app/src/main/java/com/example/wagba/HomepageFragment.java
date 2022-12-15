@@ -1,8 +1,10 @@
 package com.example.wagba;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.wagba.Adapter.CategoryAdapter;
 import com.example.wagba.Adapter.OffersAdapter;
@@ -20,8 +23,19 @@ import com.example.wagba.Adapter.StoreAdapter;
 import com.example.wagba.Model.CategoriesModel;
 import com.example.wagba.Model.OffersModel;
 import com.example.wagba.Model.StoreModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class HomepageFragment extends Fragment {
@@ -57,36 +71,74 @@ public class HomepageFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RecyclerView recyclerView;
+        RecyclerView Store_recyclerView;
         ArrayList<StoreModel> store_recyclerDataArrayList;
         RecyclerView categories_recyclerView;
         ArrayList<OffersModel> offers_recyclerDataArrayList;
         RecyclerView offers_recyclerView;
         ArrayList<CategoriesModel> categories_recyclerDataArrayList;
         Intent details_page_intent;
+        TextView welcome_message;
+        GoogleSignInClient googleSignInClient;
+        GoogleSignInOptions googleSignInOptions;
+        FirebaseAuth auth;
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
 
         details_page_intent = new Intent(view.getContext(),StoreDetails.class);
 
-        recyclerView=view.findViewById(R.id.recycler_view);
+        Store_recyclerView=view.findViewById(R.id.recycler_view);
         offers_recyclerView=view.findViewById(R.id.offers_recycler_view);
         categories_recyclerView=view.findViewById(R.id.icon_recycler_view);
+        welcome_message = view.findViewById(R.id.welcome_message);
 
+        Store_recyclerView.setHasFixedSize(true);
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+
+        googleSignInClient = GoogleSignIn.getClient(view.getContext(), googleSignInOptions);
+
+        auth = FirebaseAuth.getInstance();
+
+
+        String name = requireActivity().getIntent().getStringExtra("name");
+        if(name== null){
+
+            FirebaseUser user = auth.getCurrentUser();
+            assert user != null;
+            welcome_message.setText("Welcome Back "+user.getDisplayName().toString()+"!");
+        }
+        else if (name != null){
+            welcome_message.setText("Welcome Back "+name+"!");
+        }else{
+            welcome_message.setText("");
+        }
+
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Store");
 
         // created new array list..
         store_recyclerDataArrayList=new ArrayList<>();
         categories_recyclerDataArrayList=new ArrayList<>();
         offers_recyclerDataArrayList=new ArrayList<>();
 
+
+
         // added data to array list
 
         //store arraylist
-        store_recyclerDataArrayList.add(new StoreModel("Pizza Hut ",R.drawable.pizza_hut));
+       /* store_recyclerDataArrayList.add(new StoreModel("Pizza Hut ",R.drawable.pizza_hut));
         store_recyclerDataArrayList.add(new StoreModel("Sit & Sab Thai Chilli",R.drawable.sit_sab));
         store_recyclerDataArrayList.add(new StoreModel("McDonald's",R.drawable.mcdonalds_01));
         store_recyclerDataArrayList.add(new StoreModel("Papa John's",R.drawable.papa_johns_pizza_01));
@@ -96,7 +148,7 @@ public class HomepageFragment extends Fragment {
         store_recyclerDataArrayList.add(new StoreModel("KFC",R.drawable.kfc_4));
         store_recyclerDataArrayList.add(new StoreModel("Koshary Hend",R.drawable.koshary_hend));
         store_recyclerDataArrayList.add(new StoreModel("The Chinese Muslim",R.drawable.chinese_muslim_restrant));
-        store_recyclerDataArrayList.add(new StoreModel("Chinese El Hawary",R.drawable.hawary));
+        store_recyclerDataArrayList.add(new StoreModel("Chinese El Hawary",R.drawable.hawary));*/
 
         //category arraylist
         categories_recyclerDataArrayList.add(new CategoriesModel("Oriental",R.drawable.egypt));
@@ -114,7 +166,7 @@ public class HomepageFragment extends Fragment {
         offers_recyclerDataArrayList.add(new OffersModel(R.drawable.papajohns_offer2));
 
         // added data from arraylist to adapter class.
-        StoreAdapter adapter=new StoreAdapter(store_recyclerDataArrayList,view.getContext());
+        StoreAdapter storeAdapter=new StoreAdapter(store_recyclerDataArrayList,view.getContext());
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories_recyclerDataArrayList,view.getContext() );
         OffersAdapter offersAdapter = new OffersAdapter(offers_recyclerDataArrayList, view.getContext());
 
@@ -123,17 +175,41 @@ public class HomepageFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         // setting adapter to recycler view.
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        Store_recyclerView.setLayoutManager(layoutManager);
+        Store_recyclerView.setAdapter(storeAdapter);
 
         categories_recyclerView.setLayoutManager((linearLayoutManager));
         categories_recyclerView.setAdapter(categoryAdapter);
 
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    StoreModel store =dataSnapshot.getValue(StoreModel.class);
+                    store_recyclerDataArrayList.add(store);
+                }
+
+                storeAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
         // on tap click listener for items inside the recyclerview
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(view.getContext(), recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+        Store_recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(view.getContext(), Store_recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        startActivity(details_page_intent);
+
+                        String name =store_recyclerDataArrayList.get(position).getTitle();
+                        startActivity(details_page_intent.putExtra("name",name));
                     }
 
                     @Override public void onLongItemClick(View view, int position) {

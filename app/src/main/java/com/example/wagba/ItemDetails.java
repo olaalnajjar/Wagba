@@ -11,11 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ItemDetails extends AppCompatActivity {
 
     ImageView cart, add_to_cart;
     TextView add_to_cart_text;
     Intent cart_intent;
+    GoogleSignInClient googleSignInClient;
+    GoogleSignInOptions googleSignInOptions;
+    FirebaseAuth auth;
+    ImageView logout;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +61,34 @@ public class ItemDetails extends AppCompatActivity {
                 toast.show();
             }
         });
+
+
+        logout = findViewById(R.id.logout_btn);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                signOut();
+            }
+        });
+
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
+        auth = FirebaseAuth.getInstance();
     }
+    void signOut (){
+        googleSignInClient.signOut();
+        auth.signOut();
+        startActivity( new Intent(ItemDetails.this, MainActivity.class));
+        finish();
+
+    }
+
 }

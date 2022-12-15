@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.wagba.Model.ItemModel;
 import com.example.wagba.R;
 
@@ -33,12 +34,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.RecyclerViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         ItemModel recyclerData = ItemArrayList.get(position);
-        holder.dish_name.setText(recyclerData.getDishName());
-        holder.dish_description.setText(recyclerData.getDishDescription());
-        holder.dish_price.setText(recyclerData.getDishPrice());
-        holder.dish_img.setImageResource(recyclerData.getImg_id());
-        holder.availability.setImageResource(recyclerData.getAvailability_id());
+        holder.dish_name.setText(recyclerData.getDish_name());
+        holder.dish_description.setText(recyclerData.getDescription());
+        holder.dish_price.setText(recyclerData.getPrice());
+        Glide.with(my_context).load(recyclerData.getImage()).into(holder.dish_img);
+        Glide.with(my_context).load(recyclerData.getStatus()).into(holder.availability);
 
+      /*  holder.dish_img.setImageResource(recyclerData.getImage());
+        holder.availability.setImageResource(recyclerData.getAvailability_id());
+*/
 
     }
 
@@ -56,7 +60,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.RecyclerViewHo
         private TextView dish_price;
         private ImageView dish_img;
         private ImageView availability;
-        private ImageView add_btn;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);

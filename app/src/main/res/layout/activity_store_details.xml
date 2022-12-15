@@ -10,26 +10,26 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView2"
-        android:layout_width="548dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="0dp"
+        android:layout_width="410dp"
+        android:layout_height="253dp"
+        android:layout_marginBottom="40dp"
         android:src="@drawable/pizza_gif"
+        app:layout_constraintBottom_toTopOf="@+id/cardView6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView7"
         android:layout_width="match_parent"
         android:layout_height="490dp"
+        android:layout_marginBottom="-40dp"
+        android:paddingBottom="100dp"
         app:cardCornerRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toEndOf="@+id/gifImageView2"
-        android:paddingBottom="100dp"
-        android:layout_marginBottom="-40dp"
-        >
+        app:layout_constraintStart_toEndOf="@+id/gifImageView2">
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifImageView"
@@ -42,6 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/Store_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
@@ -57,13 +58,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="110dp"
-            android:layout_marginBottom="40dp"
-           />
+            android:layout_marginBottom="40dp" />
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="64dp"
+        android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="280dp"
@@ -76,6 +76,7 @@
 
 
         <TextView
+            android:id="@+id/tag1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/american"
@@ -83,28 +84,32 @@
             android:paddingRight="5dp"
             android:textColor="@color/dark_blue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="5dp"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView6"
         android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="280dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         app:cardBackgroundColor="@color/off_white"
         app:cardCornerRadius="20dp"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
+            android:id="@+id/tag2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/italian"
             android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
             android:paddingRight="5dp"
+            android:text="@string/italian"
             android:textColor="@color/dark_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

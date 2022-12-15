@@ -38,14 +38,15 @@
         android:fontFamily="@font/nexa_regular"
         android:textSize="24sp"
         android:textAlignment="center" />
+
     <ImageView
         android:id="@+id/availability"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_check_circle_outline_24"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="310dp"
-        android:contentDescription="@string/available" />
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="120dp"
+        android:contentDescription="@string/available"
+        android:src="@drawable/ic_baseline_check_circle_outline_24" />
 
     <TextView
         android:id="@+id/dish_description"

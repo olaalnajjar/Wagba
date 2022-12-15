@@ -86,4 +86,5 @@
     <string name="price_60_le">Price: 60 LE</string>
     <string name="price_140_le">Price: 140 LE</string>
     <string name="total_410_le">Total: 410 LE</string>
+    <string name="welcome_back_messgae">Welcome Back Jane Doe!</string>
 </resources>

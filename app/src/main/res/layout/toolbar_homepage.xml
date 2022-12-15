@@ -12,6 +12,18 @@
         tools:ignore="UselessParent">
 
 
+        <ImageView
+            android:id="@+id/logout_btn"
+            android:layout_width="25dp"
+            android:layout_height="37dp"
+            android:clickable="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_logout_24"
+            android:focusable="true" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
