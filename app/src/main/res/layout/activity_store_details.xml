@@ -54,9 +54,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/store_detail_recyclerview"
-            android:layout_width="370dp"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="110dp"
             android:layout_marginBottom="40dp" />
 

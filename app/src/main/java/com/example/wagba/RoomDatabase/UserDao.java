@@ -11,4 +11,7 @@ public interface UserDao {
 
     @Query("SELECT * from users where email=(:email) and password=(:password)")
     UserEntity login(String email, String password);
+
+    @Query("SELECT * from users where email=(:email)")
+    UserEntity getCurrentUser(String email);
 }

@@ -37,7 +37,7 @@
         android:textColor="@color/dark_blue"
         android:fontFamily="@font/nexa_regular"
         android:textSize="24sp"
-        android:textAlignment="center" />
+         />
 
     <ImageView
         android:id="@+id/availability"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="170dp"
         android:textColor="@color/dark_blue"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:paddingEnd="10dp"
         android:text="@string/margherita"
         android:fontFamily="@font/nexa_regular"

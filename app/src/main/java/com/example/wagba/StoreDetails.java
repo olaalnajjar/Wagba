@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -53,18 +54,6 @@ StoreDetails extends AppCompatActivity {
 
 
 
-
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        startActivity(details_intent);
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
 
 
 
@@ -118,9 +107,14 @@ StoreDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Log.d("extra",dataSnapshot.getKey().toString());
+                    if (!(dataSnapshot.getKey().toString() =="Extras")){
 
-                    ItemModel item =dataSnapshot.getValue(ItemModel.class);
-                    recyclerDataArrayList.add(item);
+                        ItemModel item =dataSnapshot.getValue(ItemModel.class);
+                        recyclerDataArrayList.add(item);
+
+                    }
+
                 }
 
                 adapter.notifyDataSetChanged();
@@ -133,6 +127,21 @@ StoreDetails extends AppCompatActivity {
             }
         });
 
+
+
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        String dish =recyclerDataArrayList.get(position).getDish_name();
+                        startActivity(details_intent.putExtra("dish",dish).putExtra("name",name));
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
     }
 

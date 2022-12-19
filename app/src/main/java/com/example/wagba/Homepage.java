@@ -109,6 +109,10 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
             case R.id.history_nav:
                 getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new HistoryFragment()).commit();
                 return true;
+
+            case R.id.profile_page_nav:
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new ProfileFragment()).commit();
+                return true;
         }
         return false;
     }

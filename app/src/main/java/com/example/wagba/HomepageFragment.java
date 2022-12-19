@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.example.wagba.Adapter.StoreAdapter;
 import com.example.wagba.Model.CategoriesModel;
 import com.example.wagba.Model.OffersModel;
 import com.example.wagba.Model.StoreModel;
+import com.example.wagba.RoomDatabase.UserDatabase;
+import com.example.wagba.RoomDatabase.UserEntity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -83,9 +86,7 @@ public class HomepageFragment extends Fragment {
         ArrayList<CategoriesModel> categories_recyclerDataArrayList;
         Intent details_page_intent;
         TextView welcome_message;
-        GoogleSignInClient googleSignInClient;
-        GoogleSignInOptions googleSignInOptions;
-        FirebaseAuth auth;
+
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
@@ -99,29 +100,13 @@ public class HomepageFragment extends Fragment {
 
         Store_recyclerView.setHasFixedSize(true);
 
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
 
+        String email = requireActivity().getIntent().getStringExtra("email");
+        UserDatabase db = Room.databaseBuilder(view.getContext(),
+                UserDatabase.class, "user").allowMainThreadQueries().build();
+        UserEntity user_room = db.userDao().getCurrentUser(email);
+        welcome_message.setText("Welcome Back "+user_room.getName()+"!");
 
-        googleSignInClient = GoogleSignIn.getClient(view.getContext(), googleSignInOptions);
-
-        auth = FirebaseAuth.getInstance();
-
-
-        String name = requireActivity().getIntent().getStringExtra("name");
-        if(name== null){
-
-            FirebaseUser user = auth.getCurrentUser();
-            assert user != null;
-            welcome_message.setText("Welcome Back "+user.getDisplayName().toString()+"!");
-        }
-        else if (name != null){
-            welcome_message.setText("Welcome Back "+name+"!");
-        }else{
-            welcome_message.setText("");
-        }
 
 
 

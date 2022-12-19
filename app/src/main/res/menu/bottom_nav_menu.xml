@@ -17,4 +17,9 @@
         android:id="@+id/history_nav"
         android:icon="@drawable/history_book"
         android:title="History" />
+
+    <item
+        android:id="@+id/profile_page_nav"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
 </menu>
