@@ -18,73 +18,18 @@
             android:background="@color/off_white">
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/search"
-                android:layout_width="320dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                app:cardBackgroundColor="@color/white"
-                android:elevation="4dp"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.136"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:layout_width="31dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="6dp"
-                    android:src="@drawable/search"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="@string/search" />
-
-                <EditText
-
-                    android:id="@+id/editText3"
-                    android:layout_width="260dp"
-                    android:layout_height="47dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginStart="40dp"
-                    android:height="50dp"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/search_here"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:autofillHints="search bar"
-                    android:inputType="text" />
-
-            </androidx.cardview.widget.CardView>
-
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="33dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="28dp"
-                android:rotation="180"
-                android:scaleY="1"
-                android:src="@drawable/left_arrow"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/enter_icon" />
-
             <TextView
                 android:id="@+id/welcome_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/sfuiext_old"
                 android:text="@string/welcome_back_messgae"
                 android:textColor="@color/dark_blue"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/current_offer"

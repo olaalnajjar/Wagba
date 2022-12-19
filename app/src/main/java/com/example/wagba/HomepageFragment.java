@@ -13,9 +13,14 @@ import androidx.room.Room;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.wagba.Adapter.CategoryAdapter;
@@ -74,6 +79,10 @@ public class HomepageFragment extends Fragment {
         }
     }
 
+    StoreAdapter storeAdapter;
+
+    EditText search_edittext;
+
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +96,10 @@ public class HomepageFragment extends Fragment {
         Intent details_page_intent;
         TextView welcome_message;
 
+        setHasOptionsMenu(true);
+
+        View decorView = getActivity().getWindow().getDecorView();
+        decorView.setSystemUiVisibility(0);
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
@@ -151,7 +164,7 @@ public class HomepageFragment extends Fragment {
         offers_recyclerDataArrayList.add(new OffersModel(R.drawable.papajohns_offer2));
 
         // added data from arraylist to adapter class.
-        StoreAdapter storeAdapter=new StoreAdapter(store_recyclerDataArrayList,view.getContext());
+        storeAdapter=new StoreAdapter(store_recyclerDataArrayList,view.getContext());
         CategoryAdapter categoryAdapter = new CategoryAdapter(categories_recyclerDataArrayList,view.getContext() );
         OffersAdapter offersAdapter = new OffersAdapter(offers_recyclerDataArrayList, view.getContext());
 
@@ -232,8 +245,45 @@ public class HomepageFragment extends Fragment {
         // setting adapter to recycler view.
         offers_recyclerView.setLayoutManager(new CustomLinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         offers_recyclerView.setAdapter(offersAdapter);
-
-
         return view;
     }
+
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search,menu);
+        MenuItem menuItem = menu.findItem(R.id.search_view);
+        SearchView searchView =(SearchView)menuItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                String search_str = s;
+                storeAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        if (id== R.id.search_view){
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

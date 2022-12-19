@@ -4,10 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,14 +18,18 @@ import com.example.wagba.R;
 import com.example.wagba.Model.StoreModel;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerViewHolder>{
+public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerViewHolder> implements Filterable {
 
     private ArrayList<StoreModel> StoreArrayList;
+    private ArrayList<StoreModel> getStoreArrayListFilter = new ArrayList<>();
     private Context my_context;
     public StoreAdapter(ArrayList<StoreModel> recyclerDataArrayList, Context my_context) {
         this.StoreArrayList = recyclerDataArrayList;
         this.my_context = my_context;
+        this.getStoreArrayListFilter = recyclerDataArrayList;
     }
     @NonNull
     @Override
@@ -42,6 +49,43 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerView
     @Override
     public int getItemCount() {
         return StoreArrayList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                FilterResults filterResults = new FilterResults();
+                if(charSequence == null || charSequence.length()==0){
+                    filterResults.values= getStoreArrayListFilter;
+                    filterResults.count=getStoreArrayListFilter.size();
+
+                }else{
+
+                    String searchStr = charSequence.toString().toLowerCase();
+                    List<StoreModel> storeModels= new ArrayList<>();
+                    for(StoreModel storeModel: getStoreArrayListFilter){
+                        if(storeModel.getTitle().toLowerCase().contains(searchStr)){
+                            storeModels.add(storeModel);
+                        }
+                    }
+
+                    filterResults.values=storeModels;
+                    filterResults.count=storeModels.size();
+                }
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+                StoreArrayList = (ArrayList<StoreModel>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+        return filter;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
