@@ -13,8 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.wagba.Model.CategoriesModel;
 import com.example.wagba.Model.StoreModel;
 import com.example.wagba.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.RecyclerViewHolder>{
 
@@ -57,3 +63,56 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         }
     }
 }
+/*
+
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("Store");
+
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                            StoreModel store =dataSnapshot.getValue(StoreModel.class);
+                            //store_recyclerDataArrayList.add(store);
+                        }
+
+                        // storeAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                FilterResults filterResults = new FilterResults();
+                if(charSequence == null || charSequence.length()==0){
+                    filterResults.values= getCategoryArrayListFilter;
+                    filterResults.count=getCategoryArrayListFilter.size();
+
+                }else{
+
+                    String searchStr = charSequence.toString().toLowerCase();
+                    List<CategoriesModel> categoriesModels= new ArrayList<>();
+                    for(CategoriesModel categoriesModel: getCategoryArrayListFilter){
+                        if(categoriesModel.getTitle().toLowerCase().contains(searchStr)){
+                            categoriesModels.add(categoriesModel);
+                        }
+                    }
+
+                    filterResults.values=categoriesModels;
+                    filterResults.count=categoriesModels.size();
+                }
+                return filterResults;
+          }
+*/

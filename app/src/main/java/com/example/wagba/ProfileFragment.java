@@ -53,9 +53,10 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        TextView name,email,number;
+        TextView name,email,number, email2;
         name = view.findViewById(R.id.profile_name);
         email = view.findViewById(R.id.profile_email);
+        email2 = view.findViewById(R.id.profile_email_1);
         number = view.findViewById(R.id.profile_number);
 
         String email_string = requireActivity().getIntent().getStringExtra("email");
@@ -65,6 +66,7 @@ public class ProfileFragment extends Fragment {
 
         name.setText(user_room.getName());
         email.setText(user_room.getEmail());
+        email2.setText(user_room.getEmail());
         number.setText(user_room.getNumber());
 
 

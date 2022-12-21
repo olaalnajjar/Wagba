@@ -17,9 +17,9 @@
                 >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/profile_round" />
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/user" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -32,6 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/profile_email_1"
                     android:text="developer@appsnipp.com"
                     android:textSize="12dp"
                     android:textStyle="bold"/>
@@ -63,9 +64,9 @@
             <ImageView
                 android:layout_marginStart="20dp"
                 android:id="@+id/nameImageView"
-                android:src="@drawable/ic_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:src="@drawable/user"
+                android:layout_width="70dp"
+                android:layout_height="70dp"/>
 
             <TextView
                 android:id="@+id/nameTextView"
@@ -100,9 +101,9 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/mobileImageView"
-                android:src="@drawable/ic_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/phone"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
 
             <TextView
                 android:text="Mobile"
@@ -137,9 +138,9 @@
             android:layout_marginTop="20dp">
             <ImageView
                 android:id="@+id/emailImageView"
-                android:src="@drawable/ic_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/email"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
 
             <TextView
                 android:text="Email"

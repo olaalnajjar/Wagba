@@ -46,7 +46,6 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     GoogleSignInOptions googleSignInOptions;
     FirebaseAuth auth;
     ImageView logout;
-    StoreAdapter storeAdapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -129,41 +128,5 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
 
     }
 
-/*
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-        if (id== R.id.search_view){
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search,menu);
-        MenuItem menuItem = menu.findItem(R.id.searchEditText);
-        SearchView searchView =(SearchView)menuItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                String search_str = s;
-                storeAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
-
-*/
 
 }

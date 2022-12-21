@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,21 +81,21 @@ public class HomepageFragment extends Fragment {
     }
 
     StoreAdapter storeAdapter;
-
-    EditText search_edittext;
+    RecyclerView Store_recyclerView;
+    ArrayList<StoreModel> store_recyclerDataArrayList;
+    RecyclerView categories_recyclerView;
+    ArrayList<OffersModel> offers_recyclerDataArrayList;
+    RecyclerView offers_recyclerView;
+    ArrayList<CategoriesModel> categories_recyclerDataArrayList;
+    Intent details_page_intent;
+    TextView welcome_message;
+    DatabaseReference myRef;
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RecyclerView Store_recyclerView;
-        ArrayList<StoreModel> store_recyclerDataArrayList;
-        RecyclerView categories_recyclerView;
-        ArrayList<OffersModel> offers_recyclerDataArrayList;
-        RecyclerView offers_recyclerView;
-        ArrayList<CategoriesModel> categories_recyclerDataArrayList;
-        Intent details_page_intent;
-        TextView welcome_message;
+
 
         setHasOptionsMenu(true);
 
@@ -124,7 +125,7 @@ public class HomepageFragment extends Fragment {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Store");
+        myRef = database.getReference("Store");
 
         // created new array list..
         store_recyclerDataArrayList=new ArrayList<>();
@@ -215,6 +216,28 @@ public class HomepageFragment extends Fragment {
                     }
                 })
         );
+        categories_recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(view.getContext(), categories_recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+                        String types = categories_recyclerDataArrayList.get(position).getTitle();
+                        //setFilterValue(types);
+                        if (Objects.equals(types, "Oriental")){setFilterValue("Oriental");}
+                        else if(Objects.equals(types, "Burgers")){setFilterValue("American");}
+                        else if (Objects.equals(types, "Fried Chicken")){setFilterValue("Fried Chicken");}
+                        else if(Objects.equals(types, "Pizza")){setFilterValue("Italian");}
+                        else if(Objects.equals(types, "Crepe")){setFilterValue("Crepes");}
+                        else if(Objects.equals(types, "Asian")){setFilterValue("Asian");}
+
+
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
 
 
         // setting the automatically scrolling recyclerview for offers
@@ -285,5 +308,32 @@ public class HomepageFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void setFilterValue(String types){
+
+        store_recyclerDataArrayList.clear();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    StoreModel store;
+                    String type= dataSnapshot.child("Tags/1").getValue().toString();
+                    if(type.equals(types)){
+                        store =dataSnapshot.getValue(StoreModel.class);
+                        store_recyclerDataArrayList.add(store);
+                    }
+                }
+
+                storeAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }
