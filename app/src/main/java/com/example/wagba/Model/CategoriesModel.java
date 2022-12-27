@@ -3,6 +3,7 @@ package com.example.wagba.Model;
 public class CategoriesModel {
     private String title;
     private int img_id;
+    private boolean selected = false;
 
     public String getTitle() {
         return title;
@@ -23,5 +24,13 @@ public class CategoriesModel {
     public CategoriesModel(String title, int img_id) {
         this.title = title;
         this.img_id = img_id;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

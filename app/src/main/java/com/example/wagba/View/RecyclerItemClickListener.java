@@ -1,4 +1,4 @@
-package com.example.wagba;
+package com.example.wagba.View;
 
 import android.content.Context;
 import android.view.GestureDetector;

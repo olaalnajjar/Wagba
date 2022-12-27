@@ -1,4 +1,4 @@
-package com.example.wagba.Adapter;
+package com.example.wagba.View.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

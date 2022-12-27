@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StoreDetails"
+    tools:context=".View.StoreDetails"
    >
 
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView2"
-        android:layout_width="410dp"
+        android:layout_width="match_parent"
         android:layout_height="253dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="40dp"
         android:src="@drawable/pizza_gif"
         app:layout_constraintBottom_toTopOf="@+id/cardView6"
@@ -22,14 +23,15 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView7"
         android:layout_width="match_parent"
-        android:layout_height="490dp"
-        android:layout_marginBottom="-40dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
         android:paddingBottom="100dp"
         app:cardCornerRadius="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toEndOf="@+id/gifImageView2">
+        app:layout_constraintStart_toEndOf="@+id/gifImageView2"
+        app:layout_constraintTop_toTopOf="parent">
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/gifImageView"
@@ -54,7 +56,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/store_detail_recyclerview"
-            android:layout_width="390dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="110dp"

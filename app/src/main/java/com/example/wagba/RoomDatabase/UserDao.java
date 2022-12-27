@@ -1,6 +1,7 @@
 package com.example.wagba.RoomDatabase;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -14,4 +15,5 @@ public interface UserDao {
 
     @Query("SELECT * from users where email=(:email)")
     UserEntity getCurrentUser(String email);
+
 }

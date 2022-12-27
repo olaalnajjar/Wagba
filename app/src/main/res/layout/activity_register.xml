@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register">
+    tools:context=".View.Register">
 
 
     <TextView
@@ -50,10 +50,11 @@
 
     <EditText
         android:id="@+id/Name"
-        android:layout_width="318dp"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:foregroundGravity="center"        android:layout_marginTop="20dp"
         android:hint="@string/name"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +63,11 @@
 
     <EditText
         android:id="@+id/phone"
-        android:layout_width="318dp"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:foregroundGravity="center"
         android:layout_marginTop="24dp"
         android:hint="@string/phone_number"
         android:inputType="textEmailAddress"
@@ -75,10 +78,11 @@
 
     <EditText
         android:id="@+id/Email"
-        android:layout_width="318dp"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:foregroundGravity="center"        android:layout_marginTop="20dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,10 +91,11 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="318dp"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:foregroundGravity="center"        android:layout_marginTop="20dp"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"

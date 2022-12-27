@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cart">
+    tools:context=".View.Cart">
 
     <TextView
         android:id="@+id/textView7"
@@ -20,13 +20,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_cart"
         android:layout_width="379dp"
-        android:layout_height="293dp"
+        android:layout_height="0dp"
         android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <androidx.cardview.widget.CardView
@@ -40,6 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/payment_btn"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_cart">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -56,6 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recycler_view_cart"
+            app:layout_constraintBottom_toTopOf="@+id/payment_btn"
             >
 
             <TextView
@@ -117,7 +121,8 @@
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recycler_view_cart">
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_cart"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -151,6 +156,7 @@
         android:layout_width="216dp"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="@font/nexa_regular"
         android:gravity="center"
@@ -158,6 +164,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
 

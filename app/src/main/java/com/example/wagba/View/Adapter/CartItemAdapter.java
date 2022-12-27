@@ -1,4 +1,4 @@
-package com.example.wagba.Adapter;
+package com.example.wagba.View.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.wagba.Model.CartItemModel;
 import com.example.wagba.R;
 
@@ -35,10 +36,10 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.Recycl
     public void onBindViewHolder(@NonNull CartItemAdapter.RecyclerViewHolder holder, int position) {
 
         CartItemModel recyclerData = CartItemArrayList.get(position);
-        holder.dish_name.setText(recyclerData.getDishName());
-        holder.dish_description.setText(recyclerData.getDishDescription());
-        holder.dish_price.setText(recyclerData.getDishPrice());
-        holder.dish_img.setImageResource(recyclerData.getImg_id());
+        holder.dish_name.setText(recyclerData.getDish_name());
+        holder.dish_description.setText(recyclerData.getDish_description());
+        holder.dish_price.setText(recyclerData.getDish_price());
+        Glide.with(my_context).load(recyclerData.getImg_id()).into(holder.dish_img);
         holder.number.setText(recyclerData.getNumber());
     }
 

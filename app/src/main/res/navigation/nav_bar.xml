@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/NavHomepage"
-        android:name="com.example.wagba.HomepageFragment"
+        android:name="com.example.wagba.View.HomepageFragment"
         android:label="Homepage"
         tools:layout="@layout/fragment_homepage" >
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/NavTrackOrder"
-        android:name="com.example.wagba.TrackOrderFragment"
+        android:name="com.example.wagba.View.TrackOrderFragment"
         android:label="Track Orders"
         tools:layout="@layout/fragment_track_order" >
         <action
@@ -27,8 +27,17 @@
     </fragment>
 
     <fragment
+        android:id="@+id/profile_page_nav"
+        android:name="com.example.wagba.View.ProfileFragment"
+        android:label="Profile Page"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
         android:id="@+id/NavHistory"
-        android:name="com.example.wagba.HistoryFragment"
+        android:name="com.example.wagba.View.HistoryFragment"
         android:label="History"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_NavHistory_to_profile_page_nav"
+            app:destination="@id/profile_page_nav" />
+    </fragment>
 </navigation>

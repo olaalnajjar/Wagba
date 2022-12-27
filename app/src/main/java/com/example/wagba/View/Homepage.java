@@ -1,47 +1,27 @@
-package com.example.wagba;
+package com.example.wagba.View;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wagba.Adapter.CategoryAdapter;
-import com.example.wagba.Adapter.OffersAdapter;
-import com.example.wagba.Adapter.StoreAdapter;
-import com.example.wagba.Model.CategoriesModel;
-import com.example.wagba.Model.OffersModel;
-import com.example.wagba.Model.StoreModel;
+import com.example.wagba.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 public class Homepage extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     ImageView cart;
-    Intent cart_intent;
     GoogleSignInClient googleSignInClient;
     GoogleSignInOptions googleSignInOptions;
     FirebaseAuth auth;
@@ -54,47 +34,51 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         setContentView(R.layout.activity_homepage);
 
 
+        set_actionbar();
+        google_init();
+
+        logout = findViewById(R.id.logout_btn);
+        cart=findViewById(R.id.cart_img);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.homepage_nav);
 
 
-        cart_intent = new Intent(this,Cart.class);
-
-        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setCustomView(R.layout.toolbar_homepage);
-        getSupportActionBar().setElevation(0);
-
-
-        logout = findViewById(R.id.logout_btn);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 signOut();
             }
         });
 
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Homepage.this,Cart.class));
+            }
+        });
+
+    }
+
+
+
+    private void google_init() {
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         auth = FirebaseAuth.getInstance();
+    }
 
-        cart=findViewById(R.id.cart_img);
-
-        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(cart_intent);
-            }
-        });
-
+    private void set_actionbar() {
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.toolbar_homepage);
+        getSupportActionBar().setElevation(0);
     }
 
     @Override
@@ -124,9 +108,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         googleSignInClient.signOut();
         auth.signOut();
         startActivity( new Intent(Homepage.this, MainActivity.class));
-        finish();
+        //finish();
 
     }
-
 
 }

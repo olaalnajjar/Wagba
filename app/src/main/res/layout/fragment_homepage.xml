@@ -3,18 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomepageFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.HomepageFragment"
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="600dp"
-            tools:context=".Homepage"
+            tools:context=".View.Homepage"
             android:background="@color/off_white">
 
 
@@ -46,7 +48,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/offers_recycler_view"
-                android:layout_width="372dp"
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
@@ -71,11 +75,14 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/category_icon_card"
-                android:layout_width="372dp"
+                android:layout_width="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_height="120dp"
                 app:cardCornerRadius="20dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
+                android:foregroundGravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/categories"
@@ -86,6 +93,8 @@
                     android:id="@+id/icon_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center"
                     />
 
             </androidx.cardview.widget.CardView>
@@ -106,8 +115,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
-                android:layout_width="372dp"
+                android:layout_width="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_height="600dp"
+                android:foregroundGravity="center"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"

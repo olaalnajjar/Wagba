@@ -1,4 +1,4 @@
-package com.example.wagba.Adapter;
+package com.example.wagba.View.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +18,6 @@ import com.example.wagba.Model.StoreModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.RecyclerViewHolder> implements Filterable {
 

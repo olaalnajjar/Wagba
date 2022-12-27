@@ -1,5 +1,8 @@
-package com.example.wagba;
+package com.example.wagba.View;
 
+import static com.example.wagba.View.MainActivity.EMAIL;
+
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.wagba.R;
 import com.example.wagba.RoomDatabase.UserDatabase;
 import com.example.wagba.RoomDatabase.UserEntity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileFragment extends Fragment {
 
@@ -47,29 +53,48 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    TextView name, name2,email,number, email2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        TextView name,email,number, email2;
+
         name = view.findViewById(R.id.profile_name);
+        name2 = view.findViewById(R.id.Profile_name);
         email = view.findViewById(R.id.profile_email);
         email2 = view.findViewById(R.id.profile_email_1);
         number = view.findViewById(R.id.profile_number);
 
-        String email_string = requireActivity().getIntent().getStringExtra("email");
-        UserDatabase db = Room.databaseBuilder(view.getContext(),
-                UserDatabase.class, "user").allowMainThreadQueries().build();
-        UserEntity user_room = db.userDao().getCurrentUser(email_string);
-
-        name.setText(user_room.getName());
-        email.setText(user_room.getEmail());
-        email2.setText(user_room.getEmail());
-        number.setText(user_room.getNumber());
+        set_profile_data(view.getContext());
 
 
         return view;
+    }
+
+    private void set_profile_data(Context context) {
+        UserDatabase db = Room.databaseBuilder(context,
+                UserDatabase.class, "user").allowMainThreadQueries().build();
+        if (EMAIL!=null) {
+            UserEntity user_room = db.userDao().getCurrentUser(EMAIL);
+
+            name.setText(user_room.getName());
+            name2.setText(user_room.getName());
+            email.setText(user_room.getEmail());
+            email2.setText(user_room.getEmail());
+            number.setText(user_room.getNumber());
+
+        }else{
+            FirebaseAuth auth;
+            auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+            name.setText(user.getDisplayName());
+            name2.setText(user.getDisplayName());
+            email.setText(user.getEmail());
+            email2.setText(user.getEmail());
+            number.setText(user.getPhoneNumber());
+
+        }
     }
 }

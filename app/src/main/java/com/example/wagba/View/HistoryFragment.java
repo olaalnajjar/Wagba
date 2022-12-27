@@ -1,28 +1,19 @@
-package com.example.wagba;
+package com.example.wagba.View;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.example.wagba.Adapter.CategoryAdapter;
-import com.example.wagba.Adapter.HistoryAdapter;
-import com.example.wagba.Adapter.OffersAdapter;
-import com.example.wagba.Adapter.StoreAdapter;
-import com.example.wagba.Model.CategoriesModel;
+import com.example.wagba.View.Adapter.HistoryAdapter;
 import com.example.wagba.Model.HistoryModel;
-import com.example.wagba.Model.OffersModel;
-import com.example.wagba.Model.StoreModel;
+import com.example.wagba.R;
 
 import java.util.ArrayList;
 
@@ -57,14 +48,13 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    RecyclerView History_recyclerView;
+    ArrayList<HistoryModel> History_recyclerDataArrayList;
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        RecyclerView History_recyclerView;
-        ArrayList<HistoryModel> History_recyclerDataArrayList;
-
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_history, container, false);
