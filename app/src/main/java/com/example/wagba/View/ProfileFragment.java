@@ -1,6 +1,7 @@
 package com.example.wagba.View;
 
 import static com.example.wagba.View.MainActivity.EMAIL;
+import static com.example.wagba.ViewModel.HomeViewModel.update_user_data;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import androidx.room.Room;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wagba.R;
@@ -53,7 +57,11 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    TextView name, name2,email,number, email2;
+    TextView name2, email2;
+    EditText name ,email, number;
+    ImageView confirm;
+    Integer User_id;
+    String name1,num1,email1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,18 +74,32 @@ public class ProfileFragment extends Fragment {
         email = view.findViewById(R.id.profile_email);
         email2 = view.findViewById(R.id.profile_email_1);
         number = view.findViewById(R.id.profile_number);
+        confirm = view.findViewById(R.id.done_btn);
 
         set_profile_data(view.getContext());
 
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                name1=name.getText().toString();
+                email1=email.getText().toString();
+                num1=number.getText().toString();
+                update_user_data(User_id, name1,num1 ,email1,view.getContext());
+                set_profile_data(view.getContext());
+            }
+        });
 
         return view;
     }
+
+
 
     private void set_profile_data(Context context) {
         UserDatabase db = Room.databaseBuilder(context,
                 UserDatabase.class, "user").allowMainThreadQueries().build();
         if (EMAIL!=null) {
             UserEntity user_room = db.userDao().getCurrentUser(EMAIL);
+            User_id = user_room.getId();
 
             name.setText(user_room.getName());
             name2.setText(user_room.getName());

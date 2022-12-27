@@ -58,7 +58,8 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-    public static void set_offers_adapter(OffersAdapter offersAdapter, RecyclerView offers_recyclerView, Context context) {
+    public static void set_offers_adapter(OffersAdapter offersAdapter,
+                                          RecyclerView offers_recyclerView, Context context) {
         // setting the automatically scrolling recyclerview for offers
         final int speedScroll = 3200;
         final Handler handler = new Handler();
@@ -89,7 +90,8 @@ public class HomeViewModel extends ViewModel {
         offers_recyclerView.setAdapter(offersAdapter);
     }
 
-    public static void set_store_data(DatabaseReference myRef, StoreAdapter storeAdapter,ArrayList<StoreModel> store_recyclerDataArrayList ) {
+    public static void set_store_data(DatabaseReference myRef, StoreAdapter storeAdapter,
+                                      ArrayList<StoreModel> store_recyclerDataArrayList ) {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -229,5 +231,15 @@ public class HomeViewModel extends ViewModel {
 
 
         }
+    }
+
+    public static void update_user_data(Integer User_id, String name , String number, String email ,Context context) {
+        UserDatabase db = Room.databaseBuilder(context,
+                UserDatabase.class, "user").allowMainThreadQueries().build();
+        UserEntity user_room = db.userDao().getCurrentUserByID(User_id);
+        user_room.setName(name);
+        user_room.setNumber(number);
+        user_room.setEmail(email);
+        db.userDao().update_user(user_room);
     }
 }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.wagba.R;
@@ -32,6 +33,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class
 StoreDetails extends AppCompatActivity {
 
+    String NOT_AVAILABLE = "https://firebasestorage.googleapis.com/v0/b/wagba-6d791.appspot.com/o/delete.png?alt=media&token=f9b95472-f875-48b3-a4ff-ffdd45b4ca5a";
     Intent details_intent;
     CardView item_card;
     GifImageView gif1, gif2;
@@ -67,12 +69,18 @@ StoreDetails extends AppCompatActivity {
         recyclerView_init();
         set_extras_data(name,recyclerDataArrayList,adapter);
 
+
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        String dish =recyclerDataArrayList.get(position).getDish_name();
-                        startActivity(details_intent.putExtra("dish",dish).putExtra("name",name));
-                        StoreDetails.this.finish();
+                        if (recyclerDataArrayList.get(position).getStatus().toString().equals(NOT_AVAILABLE)){
+                            Toast.makeText(getApplicationContext(), "Item Not Available",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            String dish =recyclerDataArrayList.get(position).getDish_name();
+                            startActivity(details_intent.putExtra("dish",dish).putExtra("name",name));
+                            finish();
+                        }
                     }
 
                     @Override public void onLongItemClick(View view, int position) {
