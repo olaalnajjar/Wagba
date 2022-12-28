@@ -34,17 +34,20 @@
 
 
         <RadioGroup
+            android:id="@+id/delivery_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <RadioButton
+                android:id="@+id/gate3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp" />
 
             <RadioButton
+                android:id="@+id/gate4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
@@ -102,17 +105,20 @@
 
 
         <RadioGroup
+            android:id="@+id/payment_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <RadioButton
+                android:id="@+id/credit"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp" />
 
             <RadioButton
+                android:id="@+id/cash"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"

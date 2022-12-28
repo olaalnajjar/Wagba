@@ -3,17 +3,25 @@ package com.example.wagba.View;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.wagba.Model.StoreModel;
 import com.example.wagba.View.Adapter.HistoryAdapter;
 import com.example.wagba.Model.HistoryModel;
 import com.example.wagba.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -66,6 +74,7 @@ public class HistoryFragment extends Fragment {
         History_recyclerDataArrayList=new ArrayList<>();
 
         // added data to array list
+/*
 
         History_recyclerDataArrayList.add(new HistoryModel("Order #18403"
                 , "Sunday, 11-Dec-2022, 10:00 AM "
@@ -79,7 +88,8 @@ public class HistoryFragment extends Fragment {
                 ,"Price: 140 LE"
                 ,"Price: 200 LE"
                 ,"Price: 60 LE"
-                ,"Total: 410 LE"));
+                ,"Total: 410 LE",
+                "Gate 3"));
         History_recyclerDataArrayList.add(new HistoryModel("Order #07829"
                 , "Friday, 9-Dec-2022, 2:00 PM "
                 ,"510 LE"
@@ -92,7 +102,8 @@ public class HistoryFragment extends Fragment {
                 ,"Price: 140 LE"
                 ,"Price: 300 LE"
                 ,"Price: 60 LE"
-                ,"Total: 510 LE"));
+                ,"Total: 510 LE"
+                ,"Gate 4"));
         History_recyclerDataArrayList.add(new HistoryModel("Order #22543"
                 , "Thursday, 8-Dec-2022, 09:00 AM "
                 ,"310 LE"
@@ -105,7 +116,10 @@ public class HistoryFragment extends Fragment {
                 ,"Price: 140 LE"
                 ,"Price: 100 LE"
                 ,"Price: 60 LE"
-                ,"Total: 310 LE"));
+                ,"Total: 310 LE"
+                ,"Gate 3"));
+
+*/
 
 
         // added data from arraylist to adapter class.
@@ -117,6 +131,27 @@ public class HistoryFragment extends Fragment {
         // setting adapter to recycler view.
         History_recyclerView.setLayoutManager(linearLayoutManager);
         History_recyclerView.setAdapter(adapter);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = db.getReference("history_item");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    HistoryModel historyModel =dataSnapshot.getValue(HistoryModel.class);
+                    History_recyclerDataArrayList.add(historyModel);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         return view;

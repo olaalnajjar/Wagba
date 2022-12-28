@@ -35,7 +35,7 @@ public class Cart extends AppCompatActivity {
     Button payment;
     TextView subtotal ,total;
 
-    int total_int=0;
+    public static int total_int=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +74,13 @@ public class Cart extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                total_int=0;
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Log.d("tag",dataSnapshot.child("price").getValue().toString());
                     total_int= total_int+Integer.parseInt(dataSnapshot.child("price").getValue().toString());
-                    subtotal.setText(String.valueOf(total_int));
-                    total.setText(String.valueOf(total_int+10));
+                    subtotal.setText(String.valueOf(total_int)+" EGP");
+                    total.setText(String.valueOf(total_int+10)+" EGP");
+
                 }
             }
             @Override

@@ -42,8 +42,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         holder.order_date.setText(recyclerData.getOrder_date());
         holder.order_price.setText(recyclerData.getOrder_price());
         holder.order_status.setText(recyclerData.getOrder_status());
-        holder.restaurant_img_id.setImageResource(recyclerData.getRestaurant_img_id());
-        holder.food_type_img_id.setImageResource(recyclerData.getFood_type_img_id());
+      /*  holder.restaurant_img_id.setImageResource(recyclerData.getRestaurant_img_id());
+        holder.food_type_img_id.setImageResource(recyclerData.getFood_type_img_id());*/
         holder.order_item_1.setText(recyclerData.getOrder_item_1());
         holder.order_item_2.setText(recyclerData.getOrder_item_2());
         holder.order_item_3.setText(recyclerData.getOrder_item_3());
@@ -51,19 +51,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         holder.order_item_2_price.setText(recyclerData.getOrder_item_2_price());
         holder.order_item_3_price.setText(recyclerData.getOrder_item_3_price());
         holder.total_price_details.setText(recyclerData.getTotal_price_details());
+        holder.delivery_area.setText(recyclerData.getDelivery_area());
 
         boolean isExpanded = ItemArrayList.get(position).isExpanded();
         holder.expandable.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
-        if(recyclerData.getOrder_status().equals("Delivered")){
+        if(recyclerData.getOrder_status().contains("Delivered")){
 
             holder.order_status.setTextColor(Color.parseColor("#FA4A0C"));
 
-        }else if(recyclerData.getOrder_status().equals("Processing")){
+        }else if(recyclerData.getOrder_status().contains("Processing")){
 
             holder.order_status.setTextColor(Color.parseColor("#FDBF50"));
 
-        }else if(recyclerData.getOrder_status().equals("Canceled")){
+        }else if(recyclerData.getOrder_status().contains("Canceled")){
 
             holder.order_status.setTextColor(Color.parseColor("#2A2C41"));
 
@@ -92,6 +93,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         private TextView order_item_2_price;
         private TextView order_item_3_price;
         private TextView total_price_details;
+        private TextView delivery_area;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,6 +110,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
             total_price_details = itemView.findViewById(R.id.total_price_details);
             restaurant_img_id = itemView.findViewById(R.id.restaurant_image);
             food_type_img_id = itemView.findViewById(R.id.food_type);
+            delivery_area= itemView.findViewById(R.id.delivery_area_history);
 
             expandable= itemView.findViewById(R.id.expandable);
 

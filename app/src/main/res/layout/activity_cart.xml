@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="270dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/_360_egp"
+                android:text="0 EGP"
                 android:textColor="@color/dark_blue"
                 android:textSize="22sp" />
 
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="270dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/_370_egp"
+                android:text="10 EGP"
                 android:textColor="@color/dark_blue"
                 android:textSize="22sp" />
 
