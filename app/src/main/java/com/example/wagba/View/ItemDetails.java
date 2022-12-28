@@ -104,7 +104,7 @@ public class ItemDetails extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Store/"+name+"/Dishes/"+dish);
         extras_ref = database.getReference("Store/"+name+"/Extras");
-        cartRef = database.getReference();
+
 
         set_item_data();
 
@@ -118,7 +118,7 @@ public class ItemDetails extends AppCompatActivity {
 
                 }else{
                     Log.d("here","true");
-                    add_item_to_cart(myRef, cartRef,  item_num.getText().toString());
+                    add_item_to_cart(myRef, item_num.getText().toString());
                     Toast toast = Toast.makeText(getApplicationContext(), "Item added to Cart", Toast.LENGTH_SHORT);
                     toast.show();
                 }

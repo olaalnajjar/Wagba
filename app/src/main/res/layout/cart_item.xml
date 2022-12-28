@@ -64,6 +64,19 @@
         android:textSize="16sp"
         />
 
+    <TextView
+        android:id="@+id/dish_number"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="50dp"
+        android:fontFamily="@font/nexa_regular"
+        android:text="X2"
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:visibility="visible" />
+
 
 
 
