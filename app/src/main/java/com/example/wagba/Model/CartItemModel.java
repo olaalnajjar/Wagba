@@ -5,7 +5,6 @@ public class CartItemModel {
     private String dish_description;
     private String dish_price;
     private String img_id;
-    private String number;
 
     public CartItemModel() {
     }
@@ -42,19 +41,11 @@ public class CartItemModel {
         this.img_id = img_id;
     }
 
-    public String getNumber() {
-        return number;
-    }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public CartItemModel(String dish_name, String dish_description, String dish_price, String img_id, String number) {
+    public CartItemModel(String dish_name, String dish_description, String dish_price, String img_id) {
         this.dish_name = dish_name;
         this.dish_description= dish_description;
         this.dish_price= dish_price;
         this.img_id = img_id;
-        this.number = number;
     }
 }

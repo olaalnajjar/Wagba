@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,16 +30,15 @@ public class ItemDetails extends AppCompatActivity {
 
     ImageView cart;
     CardView add_to_cart;
-    TextView title,desc,price,extra1,extra2;
-    ImageView img;
+    TextView title,desc,price,extra1,extra2,item_num;
+    ImageView img, add, remove;
     Intent cart_intent;
     GoogleSignInClient googleSignInClient;
     FirebaseAuth auth;
     ImageView logout;
     FirebaseDatabase database;
-    DatabaseReference myRef;
-    DatabaseReference extras_ref;
-    DatabaseReference cartRef;
+    DatabaseReference myRef, extras_ref, cartRef;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,11 @@ public class ItemDetails extends AppCompatActivity {
         extra2=findViewById(R.id.extra_text2);
         img=findViewById(R.id.dish_img_details);
         logout = findViewById(R.id.logout_btn);
+        add = findViewById(R.id.add_number);
+        remove = findViewById(R.id.remove_number);
+        item_num = findViewById(R.id.item_number);
 
+        item_num.setText("0");
         cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +78,24 @@ public class ItemDetails extends AppCompatActivity {
             }
         });
 
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item_num.getText().toString().equals("0")){
+                    Toast.makeText(getApplicationContext(),"Cannot remove item",Toast.LENGTH_SHORT).show();
+                }else {
+                    item_num.setText(String.valueOf(Integer.parseInt(item_num.getText().toString())-1));
+                }
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item_num.setText(String.valueOf(Integer.parseInt(item_num.getText().toString())+1));
+            }
+        });
+
 
 
         String dish = getIntent().getStringExtra("dish");
@@ -86,7 +108,22 @@ public class ItemDetails extends AppCompatActivity {
 
         set_item_data();
 
-        add_item_to_cart(add_to_cart,myRef,cartRef,getApplicationContext());
+
+        add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( item_num.getText().toString().equals("0")) {
+                    Log.d("here","false");
+                    Toast.makeText(getApplicationContext(),"Cannot add 0 items", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Log.d("here","true");
+                    add_item_to_cart(myRef, cartRef,  item_num.getText().toString());
+                    Toast toast = Toast.makeText(getApplicationContext(), "Item added to Cart", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
 
 
     }
@@ -121,7 +158,6 @@ public class ItemDetails extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void set_toolbar() {

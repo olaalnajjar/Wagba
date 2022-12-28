@@ -40,7 +40,6 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.Recycl
         holder.dish_description.setText(recyclerData.getDish_description());
         holder.dish_price.setText(recyclerData.getDish_price());
         Glide.with(my_context).load(recyclerData.getImg_id()).into(holder.dish_img);
-        holder.number.setText(recyclerData.getNumber());
     }
 
     @Override
@@ -54,9 +53,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.Recycl
         private TextView dish_description;
         private TextView dish_price;
         private ImageView dish_img;
-        private TextView number;
-        private ImageView add_btn;
-        private ImageView remove_btn;
+
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,9 +61,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.Recycl
             dish_description = itemView.findViewById(R.id.dish_description);
             dish_price = itemView.findViewById(R.id.dish_price);
             dish_img = itemView.findViewById(R.id.dish_img);
-            number = itemView.findViewById(R.id.item_number);
-            add_btn = itemView.findViewById(R.id.add_number);
-            remove_btn = itemView.findViewById(R.id.remove_number);
+
 
         }
     }
