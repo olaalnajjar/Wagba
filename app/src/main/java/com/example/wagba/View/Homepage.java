@@ -3,6 +3,7 @@ package com.example.wagba.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.wagba.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -26,6 +28,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     GoogleSignInOptions googleSignInOptions;
     FirebaseAuth auth;
     ImageView logout;
+    Fragment fragment;
+    BottomNavigationView bottomNavigationView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,7 +43,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
 
         logout = findViewById(R.id.logout_btn);
         cart=findViewById(R.id.cart_img);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        fragment= getSupportFragmentManager().findFragmentById(R.id.nav_frag);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.homepage_nav);
@@ -85,7 +90,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.homepage_nav:
-                getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new HomepageFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new HomepageFragment(),"Home").commit();
                 return true;
 
             case R.id.track_order_nav:
@@ -112,4 +117,18 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        HomepageFragment myFragment = (HomepageFragment) getSupportFragmentManager().findFragmentByTag("Home");
+        if (myFragment != null && myFragment.isVisible()) {
+            // add your code here
+            super.onBackPressed();
+            finish();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new HomepageFragment(),"Home").commit();
+            bottomNavigationView.setSelectedItemId(R.id.homepage_nav);
+        }
+
+    }
 }
