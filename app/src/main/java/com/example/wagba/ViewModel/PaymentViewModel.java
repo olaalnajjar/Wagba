@@ -33,6 +33,7 @@ public class PaymentViewModel extends ViewModel {
                 history_ref.child("total_price_details").setValue("Total: " + payment + " LE");
                 history_ref.child("delivery_area").setValue(delivery);
                 history_ref.child("order_status").setValue("Processing");
+                history_ref.child("Status").setValue("Order Placed");
                 Log.d("debug","location 10");
 
             }

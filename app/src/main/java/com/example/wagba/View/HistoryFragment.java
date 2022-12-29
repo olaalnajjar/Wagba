@@ -73,54 +73,6 @@ public class HistoryFragment extends Fragment {
         // created new array list..
         History_recyclerDataArrayList=new ArrayList<>();
 
-        // added data to array list
-/*
-
-        History_recyclerDataArrayList.add(new HistoryModel("Order #18403"
-                , "Sunday, 11-Dec-2022, 10:00 AM "
-                ,"410 LE"
-                , "Processing"
-                ,R.drawable.pizza_hut_cover
-                ,R.drawable.pizza
-                ,"1X Large Pepperoni Pizza"
-                ,"2X Medium Cheesy Lovers Pizza"
-                ,"1X Small Vegetarian Pizza"
-                ,"Price: 140 LE"
-                ,"Price: 200 LE"
-                ,"Price: 60 LE"
-                ,"Total: 410 LE",
-                "Gate 3"));
-        History_recyclerDataArrayList.add(new HistoryModel("Order #07829"
-                , "Friday, 9-Dec-2022, 2:00 PM "
-                ,"510 LE"
-                , "Delivered"
-                ,R.drawable.pizza_hut_cover
-                ,R.drawable.pizza
-                ,"1X Large Pepperoni Pizza"
-                ,"3X Medium Cheesy Lovers Pizza"
-                ,"1X Small Vegetarian Pizza"
-                ,"Price: 140 LE"
-                ,"Price: 300 LE"
-                ,"Price: 60 LE"
-                ,"Total: 510 LE"
-                ,"Gate 4"));
-        History_recyclerDataArrayList.add(new HistoryModel("Order #22543"
-                , "Thursday, 8-Dec-2022, 09:00 AM "
-                ,"310 LE"
-                , "Canceled"
-                ,R.drawable.pizza_hut_cover
-                ,R.drawable.pizza
-                ,"1X Large Pepperoni Pizza"
-                ,"1X Medium Cheesy Lovers Pizza"
-                ,"1X Small Vegetarian Pizza"
-                ,"Price: 140 LE"
-                ,"Price: 100 LE"
-                ,"Price: 60 LE"
-                ,"Total: 310 LE"
-                ,"Gate 3"));
-
-*/
-
 
         // added data from arraylist to adapter class.
         HistoryAdapter adapter=new HistoryAdapter(History_recyclerDataArrayList,view.getContext());

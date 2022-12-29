@@ -21,184 +21,206 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view_dot_1"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
-        android:background="@drawable/circle_done"
+        android:background="@drawable/circle_waiting"
+        android:alpha="0.5"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/order_text_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.5"
+
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/sfuiext_old"
         android:text="@string/order_placed"
         android:textColor="@color/dark_blue"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/order_img_1"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/sub_text_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:alpha="0.5"
+
         android:layout_marginTop="12dp"
         android:fontFamily="@font/nexa_regular"
         android:text="@string/your_order_has_been_placed"
         android:textColor="@color/dark_blue"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_1"
+        app:layout_constraintTop_toBottomOf="@+id/order_text_1" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/order_img_1"
         android:layout_width="90dp"
+        android:alpha="0.5"
         android:layout_height="90dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:contentDescription="@string/order_placed"
         android:src="@drawable/online__order"
-        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view_dot_1"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <View
-        android:id="@+id/view3"
+        android:id="@+id/view_line_1"
         android:layout_width="1dp"
         android:layout_height="100dp"
+        android:alpha="0.5"
         android:layout_marginStart="23dp"
-        android:background="@drawable/circle_done"
+        android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2" />
+        app:layout_constraintTop_toBottomOf="@+id/view_dot_1" />
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/view_dot_2"
         android:layout_width="15dp"
         android:layout_height="15dp"
+        android:alpha="0.5"
         android:layout_marginStart="16dp"
-        android:background="@drawable/circle_done"
+        android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
+        app:layout_constraintTop_toBottomOf="@+id/view_line_1" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/order_img_2"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:alpha="0.5"
+
         android:contentDescription="@string/order_confirmed"
         android:src="@drawable/ordered"
-        app:layout_constraintStart_toEndOf="@+id/view4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/view_dot_2"
+        app:layout_constraintTop_toBottomOf="@+id/order_img_1" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/order_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:alpha="0.5"
+
         android:layout_marginTop="32dp"
         android:fontFamily="@font/sfuiext_old"
         android:text="@string/order_confirmed"
         android:textColor="@color/dark_blue"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_2"
+        app:layout_constraintTop_toBottomOf="@+id/sub_text_1" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/sub_text_2"
         android:layout_width="220dp"
         android:layout_height="43dp"
         android:layout_marginStart="20dp"
+        android:alpha="0.5"
+
         android:layout_marginTop="16dp"
         android:fontFamily="@font/nexa_regular"
         android:text="@string/your_order_has_been_confirmed"
         android:textColor="@color/dark_blue"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_2"
+        app:layout_constraintTop_toBottomOf="@+id/order_text_2" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/view_line_2"
         android:layout_width="1dp"
         android:layout_height="120dp"
         android:layout_marginStart="23dp"
-        android:background="@drawable/circle_processing"
+        android:alpha="0.5"
+        android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
+        app:layout_constraintTop_toBottomOf="@+id/view_dot_2" />
 
     <View
-        android:id="@+id/view5"
+        android:id="@+id/view_dot_3"
         android:layout_width="15dp"
         android:layout_height="15dp"
+        android:alpha="0.5"
         android:layout_marginStart="16dp"
-        android:background="@drawable/circle_processing"
+        android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/view_line_2" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/order_img_3"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:contentDescription="@string/preparing_order"
+        android:alpha="0.5"
         android:src="@drawable/cooking"
-        app:layout_constraintStart_toEndOf="@+id/view5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/view_dot_3"
+        app:layout_constraintTop_toBottomOf="@+id/order_img_2" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/order_text_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:alpha="0.5"
+
         android:layout_marginTop="36dp"
         android:fontFamily="@font/sfuiext_old"
         android:text="@string/preparing_order"
         android:textColor="@color/dark_blue"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_3"
+        app:layout_constraintTop_toBottomOf="@+id/sub_text_2" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/sub_text_3"
         android:layout_width="181dp"
         android:layout_height="43dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
+        android:alpha="0.5"
+
         android:fontFamily="@font/nexa_regular"
         android:text="@string/your_order_is_being_prepared"
         android:textColor="@color/dark_blue"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_3"
+        app:layout_constraintTop_toBottomOf="@+id/order_text_3" />
 
     <View
-        android:id="@+id/view6"
-        android:layout_width="3dp"
+        android:id="@+id/view_line_3"
+        android:layout_width="1dp"
         android:layout_height="123dp"
         android:layout_marginStart="23dp"
         android:alpha="0.5"
         android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
+        app:layout_constraintTop_toBottomOf="@+id/view_dot_3" />
 
     <View
-        android:id="@+id/view7"
+        android:id="@+id/view_dot_4"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginStart="16dp"
         android:alpha="0.5"
         android:background="@drawable/circle_waiting"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view6" />
+        app:layout_constraintTop_toBottomOf="@+id/view_line_3" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/order_img_4"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginStart="20dp"
@@ -206,10 +228,11 @@
         android:alpha="0.5"
         android:contentDescription="@string/delivery"
         android:src="@drawable/food_ready_for_delivery"
-        app:layout_constraintStart_toEndOf="@+id/view7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintStart_toEndOf="@+id/view_dot_4"
+        app:layout_constraintTop_toBottomOf="@+id/order_img_3" />
 
     <TextView
+        android:id="@+id/order_text_4"
         android:layout_width="241dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -219,8 +242,8 @@
         android:text="@string/order_out_for_delivery"
         android:textColor="@color/dark_blue"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintStart_toEndOf="@+id/order_img_4"
+        app:layout_constraintTop_toBottomOf="@+id/sub_text_3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
