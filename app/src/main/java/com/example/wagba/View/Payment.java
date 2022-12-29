@@ -6,18 +6,17 @@ import static com.example.wagba.ViewModel.PaymentViewModel.history_item;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.wagba.Model.StoreModel;
 import com.example.wagba.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +29,10 @@ import java.util.Date;
 public class Payment extends AppCompatActivity {
 
 
-    Button home_Btn;
+    Button place_order_btn;
     Intent homepage;
     public static int Order_NO=1001;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +44,16 @@ public class Payment extends AppCompatActivity {
 
         set_toolbar();
 
-        home_Btn = findViewById(R.id.homepage);
-        home_Btn.setOnClickListener(new View.OnClickListener() {
+        place_order_btn = findViewById(R.id.place_order);
+        place_order_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
+
                 if (radioGroup1.getCheckedRadioButtonId() == -1)
                 {
+                    Log.d("debug","location 1");
                     // no radio buttons are checked
                     Toast.makeText(getApplicationContext(),"Please select Delivery area",Toast.LENGTH_SHORT).show();
 
@@ -64,8 +66,6 @@ public class Payment extends AppCompatActivity {
                 else
                 {
 
-                    Toast.makeText(getApplicationContext(),"Your Order has been placed!", Toast.LENGTH_LONG).show();
-
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -74,11 +74,18 @@ public class Payment extends AppCompatActivity {
                             if(radioGroup1.getCheckedRadioButtonId()==R.id.gate3){
                                 gate= "Gate 3";
                             }else {gate = "Gate 4";}
-                            history_item(String.valueOf(currentTime), String.valueOf(total_int),gate);
+                            history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO);
+                            FirebaseDatabase db =FirebaseDatabase.getInstance();
+                            DatabaseReference cart = db.getReference("cart");
+                            DatabaseReference reference = db.getReference();
+                            reference.child("payment").removeValue();
+                            cart.removeValue();
+                            Order_NO+=1;
                             total_int=0;
+                            ItemDetails.COUNT=1;
                             Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
                             startActivity(homepage);
-                            Payment.this.finish();
+                            finish();
                         }
                     }, 1000);   //1 seconds
 
@@ -94,11 +101,6 @@ public class Payment extends AppCompatActivity {
 
 
     }
-
-
-
-
-
 
 
     private void set_toolbar() {

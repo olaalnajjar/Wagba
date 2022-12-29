@@ -2,6 +2,8 @@ package com.example.wagba.ViewModel;
 
 import static com.example.wagba.View.Payment.Order_NO;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
@@ -13,20 +15,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PaymentViewModel extends ViewModel {
-   public static void history_item(String currentTime, String payment,String delivery){
 
+    public static void history_item(String currentTime, String payment,String delivery, int order){
 
-       Order_NO= Order_NO+1;
-
-       FirebaseDatabase db =FirebaseDatabase.getInstance();
-       DatabaseReference history_ref = db.getReference("history_item/"+String.valueOf(Order_NO));
-       DatabaseReference cart = db.getReference("cart");
-
-
+        FirebaseDatabase db =FirebaseDatabase.getInstance();
+        DatabaseReference history_ref = db.getReference("history_item/"+String.valueOf(order));
 
         history_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot0) {
+
 
                 String order_name = snapshot0.getKey().toString();
                 history_ref.child("order_name").setValue("#" + order_name);
@@ -35,40 +33,14 @@ public class PaymentViewModel extends ViewModel {
                 history_ref.child("total_price_details").setValue("Total: " + payment + " LE");
                 history_ref.child("delivery_area").setValue(delivery);
                 history_ref.child("order_status").setValue("Processing");
-                final int[] i = {1};
-                cart.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot1) {
+                Log.d("debug","location 10");
 
-                        for (DataSnapshot dataSnapshot : snapshot1.getChildren()) {
-
-                            if (i[0]<4) {
-                                String[] num = dataSnapshot.child("number").getValue().toString().split("X");
-                                String dish = dataSnapshot.child("dish_name").getValue().toString();
-                                history_ref.child("order_item_" + String.valueOf(i[0])).setValue("X" + num[1] + " " + dish);
-                                String[] price = dataSnapshot.child("dish_price").getValue().toString().split(" ");
-                                int dish_price = Integer.parseInt(price[0]);
-                                history_ref.child("order_item_" + String.valueOf(i[0]) + "_price").setValue("Price: " + String.valueOf(dish_price * Integer.parseInt(num[1])));
-                                i[0]++;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                DatabaseReference reference = db.getReference();
-                reference.child("payment").removeValue();
-                cart.removeValue();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
+        return;
     }
 }

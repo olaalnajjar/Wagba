@@ -38,6 +38,7 @@ public class ItemDetails extends AppCompatActivity {
     ImageView logout;
     FirebaseDatabase database;
     DatabaseReference myRef, extras_ref, cartRef;
+    static public int COUNT=1;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -113,12 +114,10 @@ public class ItemDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if( item_num.getText().toString().equals("0")) {
-                    Log.d("here","false");
                     Toast.makeText(getApplicationContext(),"Cannot add 0 items", Toast.LENGTH_SHORT).show();
 
                 }else{
-                    Log.d("here","true");
-                    add_item_to_cart(myRef, item_num.getText().toString());
+                    add_item_to_cart(name,dish, item_num.getText().toString());
                     Toast toast = Toast.makeText(getApplicationContext(), "Item added to Cart", Toast.LENGTH_SHORT);
                     toast.show();
                 }

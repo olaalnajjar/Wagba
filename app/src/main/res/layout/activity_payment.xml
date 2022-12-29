@@ -151,7 +151,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/homepage"
+        android:id="@+id/place_order"
         android:layout_width="216dp"
         android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
