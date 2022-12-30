@@ -1,5 +1,7 @@
 package com.example.wagba.ViewModel;
 
+import static com.example.wagba.View.Cart.set_gif;
+
 import androidx.annotation.NonNull;
 
 import com.example.wagba.Model.CartItemModel;
@@ -29,6 +31,7 @@ public class CartViewModel {
                 }
 
                 adapter.notifyDataSetChanged();
+                set_gif();
 
             }
 

@@ -27,14 +27,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class Cart extends AppCompatActivity {
 
     Intent payment_activity;
     private RecyclerView recyclerView;
-    private ArrayList<CartItemModel> recyclerDataArrayList;
+    private static ArrayList<CartItemModel> recyclerDataArrayList;
     Button payment;
     TextView subtotal ,total;
 
+    static GifImageView gif;
+    static TextView text ;
     public static int total_int=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,13 @@ public class Cart extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+
+        gif = findViewById(R.id.empty_cart_gif);
+        text = findViewById(R.id.empty_cart_text);
+
+        set_gif();
         set_cart_data( recyclerDataArrayList,adapter);
+
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference myRef = db.getReference("payment");
@@ -100,5 +110,15 @@ public class Cart extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.toolbar);
         getSupportActionBar().setElevation(0);
+    }
+
+    public static void set_gif(){
+        if(recyclerDataArrayList.isEmpty()){
+            gif.setVisibility(View.VISIBLE);
+            text.setVisibility(View.VISIBLE);
+        }else{
+            gif.setVisibility(View.GONE);
+            text.setVisibility(View.GONE);
+        }
     }
 }

@@ -86,7 +86,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/sfuiext_old"
-        android:text="@string/payment_method"
+        android:text="Delivery Time"
         android:textColor="@color/dark_blue"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,20 +105,20 @@
 
 
         <RadioGroup
-            android:id="@+id/payment_method"
+            android:id="@+id/delivery_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
             <RadioButton
-                android:id="@+id/credit"
+                android:id="@+id/noon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp" />
 
             <RadioButton
-                android:id="@+id/cash"
+                android:id="@+id/three_pm"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"
@@ -133,7 +133,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nexa_regular"
-            android:text="@string/credit_card"
+            android:text="Delivered at 12:00 PM"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="28sp" />
@@ -144,7 +144,7 @@
             android:layout_marginStart="60dp"
             android:layout_marginTop="80dp"
             android:fontFamily="@font/nexa_regular"
-            android:text="@string/cash"
+            android:text="Deliver at 3:00 PM"
             android:textAlignment="center"
             android:textColor="@color/dark_blue"
             android:textSize="28sp" />

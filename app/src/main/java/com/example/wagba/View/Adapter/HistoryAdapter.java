@@ -2,6 +2,7 @@ package com.example.wagba.View.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.RecyclerViewHolder>{
 
 
+    static int x = 180;
     private ArrayList<HistoryModel> ItemArrayList;
     private Context my_context;
     public HistoryAdapter(ArrayList<HistoryModel> recyclerDataArrayList, Context my_context) {
@@ -42,8 +44,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         holder.order_date.setText(recyclerData.getOrder_date());
         holder.order_price.setText(recyclerData.getOrder_price());
         holder.order_status.setText(recyclerData.getOrder_status());
-      /*  holder.restaurant_img_id.setImageResource(recyclerData.getRestaurant_img_id());
-        holder.food_type_img_id.setImageResource(recyclerData.getFood_type_img_id());*/
         holder.order_item_1.setText(recyclerData.getOrder_item_1());
         holder.order_item_2.setText(recyclerData.getOrder_item_2());
         holder.order_item_3.setText(recyclerData.getOrder_item_3());
@@ -56,18 +56,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         boolean isExpanded = ItemArrayList.get(position).isExpanded();
         holder.expandable.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
-        if(recyclerData.getOrder_status().contains("Delivered")){
+        if(!recyclerData.getOrder_status().toString().equals("")){
 
-            holder.order_status.setTextColor(Color.parseColor("#FA4A0C"));
+            if (recyclerData.getOrder_status().contains("Delivered")) {
 
-        }else if(recyclerData.getOrder_status().contains("Processing")){
+                holder.order_status.setTextColor(Color.parseColor("#FA4A0C"));
 
-            holder.order_status.setTextColor(Color.parseColor("#FDBF50"));
+            } else if (recyclerData.getOrder_status().contains("Processing")) {
 
-        }else if(recyclerData.getOrder_status().contains("Canceled")){
+                holder.order_status.setTextColor(Color.parseColor("#FDBF50"));
 
-            holder.order_status.setTextColor(Color.parseColor("#2A2C41"));
+            } else if (recyclerData.getOrder_status().contains("Cancelled")) {
 
+                holder.order_status.setTextColor(Color.parseColor("#2A2C41"));
+
+            }
         }
 
     }
@@ -84,8 +87,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
         private TextView order_date;
         private TextView order_price;
         private TextView order_status;
-        private GifImageView restaurant_img_id;
-        private ImageView food_type_img_id;
         private TextView order_item_1;
         private TextView order_item_2;
         private TextView order_item_3;
@@ -108,8 +109,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
             order_item_2_price = itemView.findViewById(R.id.item2_price);
             order_item_3_price = itemView.findViewById(R.id.item3_price);
             total_price_details = itemView.findViewById(R.id.total_price_details);
-            restaurant_img_id = itemView.findViewById(R.id.restaurant_image);
-            food_type_img_id = itemView.findViewById(R.id.food_type);
             delivery_area= itemView.findViewById(R.id.delivery_area_history);
 
             expandable= itemView.findViewById(R.id.expandable);
@@ -123,17 +122,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.Recycler
                     HistoryModel historyModel = ItemArrayList.get(getAdapterPosition());
                     historyModel.setExpanded(!historyModel.isExpanded());
                     notifyItemChanged(getAdapterPosition());
+
+                    if(x==0){
+                        arrow.setRotation(x);
+                        x=180;
+                    } else{
+                        arrow.setRotation(x);
+                        x=0;
+                    }
+
                 }
             });
 
-            arrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    HistoryModel historyModel = ItemArrayList.get(getAdapterPosition());
-                    historyModel.setExpanded(!historyModel.isExpanded());
-                    notifyItemChanged(getAdapterPosition());
-                }
-            });
 
         }
     }

@@ -109,14 +109,13 @@
         android:id="@+id/arrow_down"
         android:layout_width="22dp"
         android:layout_height="22dp"
+        android:layout_marginTop="208dp"
         android:clickable="true"
-        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-        android:layout_marginTop="210dp"
-        app:layout_constraintEnd_toStartOf="@+id/more_info"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        android:contentDescription="@string/arrow"
         android:focusable="true"
-        android:contentDescription="@string/arrow" />
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        app:layout_constraintEnd_toStartOf="@+id/more_info"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/more_info"

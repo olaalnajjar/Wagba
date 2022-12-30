@@ -11,10 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.wagba.R;
@@ -23,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class TrackOrderFragment extends Fragment {
@@ -61,6 +67,9 @@ public class TrackOrderFragment extends Fragment {
     TextView title1, title2, title3, title4;
     TextView subtitle1, subtitle2, subtitle3;
     public static String Status="";
+    String order_number;
+
+    public static ArrayList<String> array = new ArrayList<>();
 
     @SuppressLint({"MissingInflatedId", "ResourceAsColor"})
     @Override
@@ -95,33 +104,76 @@ public class TrackOrderFragment extends Fragment {
         subtitle3=view.findViewById(R.id.sub_text_3);
 
 
-        FirebaseDatabase database =FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("history_item/"+String.valueOf(Order_NO));
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    Status =snapshot.child("Status").getValue().toString();
-                    set_tracking_data(view);
-                    if("Order Delivered".equals(snapshot.child("Status").getValue().toString())){
-                        myRef.child("order_status").setValue("Delivered");
+
+
+
+
+        Spinner spinner = view.findViewById(R.id.action_bar_spinner);
+            ArrayAdapter<String> ArrAdapt = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_item, array);
+            ArrAdapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(ArrAdapt);
+
+
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("history_item/");
+
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String order = dataSnapshot.getKey().toString();
+                        if(!array.contains(order)) {
+                            array.add(order);
+                        }
+
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    myRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            order_number = spinner.getSelectedItem().toString();
+                            if (snapshot.child(order_number).exists()) {
+                                if (snapshot.child(order_number).child("Status").exists()) {
+                                    Status = snapshot.child(order_number).child("Status").getValue().toString();
+                                    set_tracking_data(view, "  ");
+                                    set_tracking_data(view, Status);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
 
 
         return view;
     }
 
-    void set_tracking_data(View view){
+    void set_tracking_data(View view, String Status){
 
         switch(Status) {
+
             case "Order Placed":
                 set_order_state_1(view);
                 break;
@@ -148,7 +200,7 @@ public class TrackOrderFragment extends Fragment {
 
                 break;
             default:
-
+                set_order_state_default(view);
                 break;
 
         }
@@ -198,4 +250,35 @@ public class TrackOrderFragment extends Fragment {
         dot4.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_processing,null));
         line3.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_done,null));
    }
+    void set_order_state_default(View view){
+        img1.setAlpha(0.5F);
+        title1.setAlpha(0.5F);
+        subtitle1.setAlpha(0.5F);
+        dot1.setAlpha(0.5F);
+        line1.setAlpha(0.5F);
+        dot1.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+        line1.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+
+        img2.setAlpha(0.5F);
+        title2.setAlpha(0.5F);
+        subtitle2.setAlpha(0.5F);
+        dot2.setAlpha(0.5F);
+        line2.setAlpha(0.5F);
+        dot2.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+        line2.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+
+        img3.setAlpha(0.5F);
+        title3.setAlpha(0.5F);
+        subtitle3.setAlpha(0.5F);
+        dot3.setAlpha(0.5F);
+        line3.setAlpha(0.5F);
+        dot3.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+        line3.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+
+        img4.setAlpha(0.5F);
+        title4.setAlpha(0.5F);
+        dot4.setAlpha(0.5F);
+        dot4.setBackground(ResourcesCompat.getDrawable(view.getResources(),R.drawable.circle_waiting,null));
+
+    }
 }

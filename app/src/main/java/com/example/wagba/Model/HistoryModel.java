@@ -5,7 +5,7 @@ public class HistoryModel {
     private String order_name;
     private String order_date;
     private String order_price;
-    private String order_status;
+    private String order_status="";
     //private int restaurant_img_id;
     //private int food_type_img_id;
     private String order_item_1;

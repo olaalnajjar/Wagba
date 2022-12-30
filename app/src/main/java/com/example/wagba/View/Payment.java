@@ -1,6 +1,7 @@
 package com.example.wagba.View;
 
 import static com.example.wagba.View.Cart.total_int;
+import static com.example.wagba.ViewModel.PaymentViewModel.compareDates;
 import static com.example.wagba.ViewModel.PaymentViewModel.history_item;
 
 import androidx.annotation.NonNull;
@@ -23,14 +24,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Payment extends AppCompatActivity {
 
 
     Button place_order_btn;
     Intent homepage;
+
+
+
+    private String compareStringOne = "12:00";
+    private String compareStringTwo = "01:00";
+
+
     public static int Order_NO=1001;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,7 +52,7 @@ public class Payment extends AppCompatActivity {
 
         homepage = new Intent(this, Homepage.class);
         RadioGroup radioGroup1 = findViewById(R.id.delivery_area);
-        RadioGroup radioGroup2 = findViewById(R.id.payment_method);
+        RadioGroup radioGroup2 = findViewById(R.id.delivery_time);
 
         set_toolbar();
 
@@ -74,18 +86,44 @@ public class Payment extends AppCompatActivity {
                             if(radioGroup1.getCheckedRadioButtonId()==R.id.gate3){
                                 gate= "Gate 3";
                             }else {gate = "Gate 4";}
-                            history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO);
-                            FirebaseDatabase db =FirebaseDatabase.getInstance();
-                            DatabaseReference cart = db.getReference("cart");
-                            DatabaseReference reference = db.getReference();
-                            reference.child("payment").removeValue();
-                            cart.removeValue();
-                            Order_NO+=1;
-                            total_int=0;
-                            ItemDetails.COUNT=1;
-                            Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
-                            startActivity(homepage);
-                            finish();
+                            if(radioGroup2.getCheckedRadioButtonId()==R.id.noon){
+                                if(compareDates(compareStringOne)){
+
+                                    history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO,"noon");
+                                    FirebaseDatabase db =FirebaseDatabase.getInstance();
+                                    DatabaseReference cart = db.getReference("cart");
+                                    DatabaseReference reference = db.getReference();
+                                    reference.child("payment").removeValue();
+                                    cart.removeValue();
+                                    Order_NO+=1;
+                                    total_int=0;
+                                    ItemDetails.COUNT=1;
+                                    Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
+                                    startActivity(homepage);
+                                    finish();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Cannot make order for noon when its past 10",Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else {
+                                if(compareDates(compareStringTwo)){
+                                    history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO,"three");
+                                    FirebaseDatabase db =FirebaseDatabase.getInstance();
+                                    DatabaseReference cart = db.getReference("cart");
+                                    DatabaseReference reference = db.getReference();
+                                    reference.child("payment").removeValue();
+                                    cart.removeValue();
+                                    Order_NO+=1;
+                                    total_int=0;
+                                    ItemDetails.COUNT=1;
+                                    Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
+                                    startActivity(homepage);
+                                    finish();
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Cannot make order for 3:00 when its past 1:00",Toast.LENGTH_SHORT).show();
+                                }
+                                }
+
                         }
                     }, 1000);   //1 seconds
 
