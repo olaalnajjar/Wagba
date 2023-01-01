@@ -1,7 +1,5 @@
 package com.example.wagba.View;
 
-import static com.example.wagba.View.Payment.Order_NO;
-
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.wagba.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -114,9 +113,9 @@ public class TrackOrderFragment extends Fragment {
             spinner.setAdapter(ArrAdapt);
 
 
-
+        String id  = FirebaseAuth.getInstance().getUid();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("history_item/");
+            DatabaseReference myRef = database.getReference("history_item/"+id);
 
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override

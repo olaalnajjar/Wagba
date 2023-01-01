@@ -113,7 +113,7 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         googleSignInClient.signOut();
         auth.signOut();
         startActivity( new Intent(Homepage.this, MainActivity.class));
-        //finish();
+        finish();
 
     }
 
@@ -122,7 +122,8 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
 
         HomepageFragment myFragment = (HomepageFragment) getSupportFragmentManager().findFragmentByTag("Home");
         if (myFragment != null && myFragment.isVisible()) {
-            // add your code here
+            getSupportFragmentManager().clearBackStack(null);
+            auth.signOut();
             super.onBackPressed();
             finish();
         }else {

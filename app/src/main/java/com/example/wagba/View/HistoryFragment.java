@@ -18,6 +18,7 @@ import com.example.wagba.Model.StoreModel;
 import com.example.wagba.View.Adapter.HistoryAdapter;
 import com.example.wagba.Model.HistoryModel;
 import com.example.wagba.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -92,8 +93,10 @@ public class HistoryFragment extends Fragment {
         History_recyclerView.setLayoutManager(linearLayoutManager);
         History_recyclerView.setAdapter(adapter);
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id = auth.getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = db.getReference("history_item");
+        DatabaseReference myRef = db.getReference("history_item/"+id);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

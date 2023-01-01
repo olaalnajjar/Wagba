@@ -1,6 +1,5 @@
 package com.example.wagba.ViewModel;
 
-import static com.example.wagba.View.Payment.Order_NO;
 
 import android.util.Log;
 
@@ -8,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import com.example.wagba.View.Payment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,8 +23,11 @@ public class PaymentViewModel extends ViewModel {
 
     public static void history_item(String currentTime, String payment,String delivery, int order,String time){
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id = auth.getUid();
         FirebaseDatabase db =FirebaseDatabase.getInstance();
-        DatabaseReference history_ref = db.getReference("history_item/"+String.valueOf(order));
+        DatabaseReference history_ref = db.getReference("history_item/"+id+"/"+String.valueOf(order));
+        Log.d("order",String.valueOf(order));
 
         history_ref.addValueEventListener(new ValueEventListener() {
             @Override

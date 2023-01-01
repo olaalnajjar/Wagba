@@ -2,10 +2,13 @@ package com.example.wagba.ViewModel;
 
 import static com.example.wagba.View.Cart.set_gif;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.wagba.Model.CartItemModel;
 import com.example.wagba.View.Adapter.CartItemAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,8 +21,10 @@ public class CartViewModel {
 
     public static void set_cart_data(ArrayList<CartItemModel> recyclerDataArrayList, CartItemAdapter adapter) {
 
+        FirebaseAuth auth =  FirebaseAuth.getInstance();
+        String id = auth.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart");
+        DatabaseReference myRef = database.getReference("cart/"+id);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -146,14 +147,16 @@ public class MainActivity extends AppCompatActivity {
     // function that gets the client google intent
     private void SignIn() {
 
+        Log.d("signin","before result start");
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        finish();
+        Log.d("signin","after result start");
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("signin","in result start");
 
         // checks if the data returned is from the correct activity
         if (requestCode == RC_SIGN_IN) {
@@ -163,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d("signin","calling firebase google login");
+
                 firebaseLoginWithGoogle(account);
 
             } catch (ApiException e) {
@@ -175,16 +180,21 @@ public class MainActivity extends AppCompatActivity {
     // deals with what is going to happen after the account is chosen on both success account info and on failure account info
     void firebaseLoginWithGoogle(GoogleSignInAccount account) {
         //access token is related to the backend and when a token should be expired
+        Log.d("signin","in fire base login google");
+
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
         auth.signInWithCredential(credential)
                 .addOnSuccessListener(this, authResult -> {
                     finish();
                     startActivity(new Intent(getApplicationContext(), Homepage.class));
+                    Log.d("signin","success sign in");
                     MainActivity.this.finish();
 
                 })
                 .addOnFailureListener(this, e -> {
+                    Log.d("signin","failure sign in");
+
                     Toast.makeText(this, " Failure in sign in with this account", Toast.LENGTH_SHORT).show();
                 });
 

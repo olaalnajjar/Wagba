@@ -1,7 +1,6 @@
 package com.example.wagba.View;
 
 import static com.example.wagba.View.MainActivity.EMAIL;
-import static com.example.wagba.ViewModel.HomeViewModel.update_user_data;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -113,6 +112,16 @@ public class ProfileFragment extends Fragment {
             number.setText(user.getPhoneNumber());
 
         }
+    }
+
+    public static void update_user_data(Integer User_id, String name , String number, String email ,Context context) {
+        UserDatabase db = Room.databaseBuilder(context,
+                UserDatabase.class, "user").allowMainThreadQueries().build();
+        UserEntity user_room = db.userDao().getCurrentUserByID(User_id);
+        user_room.setName(name);
+        user_room.setNumber(number);
+        user_room.setEmail(email);
+        db.userDao().update_user(user_room);
     }
 }
 

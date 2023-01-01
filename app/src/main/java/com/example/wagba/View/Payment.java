@@ -18,10 +18,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.wagba.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Payment extends AppCompatActivity {
 
@@ -43,7 +46,7 @@ public class Payment extends AppCompatActivity {
     private String compareStringTwo = "01:00";
 
 
-    public static int Order_NO=1001;
+    public static int Order_NO= ThreadLocalRandom.current().nextInt(10000); ;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,10 @@ public class Payment extends AppCompatActivity {
 
         set_toolbar();
 
+        FirebaseDatabase db =FirebaseDatabase.getInstance();
+        DatabaseReference reference = db.getReference();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id = auth.getUid();
         place_order_btn = findViewById(R.id.place_order);
         place_order_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +72,6 @@ public class Payment extends AppCompatActivity {
 
                 if (radioGroup1.getCheckedRadioButtonId() == -1)
                 {
-                    Log.d("debug","location 1");
                     // no radio buttons are checked
                     Toast.makeText(getApplicationContext(),"Please select Delivery area",Toast.LENGTH_SHORT).show();
 
@@ -90,12 +96,11 @@ public class Payment extends AppCompatActivity {
                                 if(compareDates(compareStringOne)){
 
                                     history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO,"noon");
-                                    FirebaseDatabase db =FirebaseDatabase.getInstance();
-                                    DatabaseReference cart = db.getReference("cart");
-                                    DatabaseReference reference = db.getReference();
                                     reference.child("payment").removeValue();
-                                    cart.removeValue();
-                                    Order_NO+=1;
+                                    reference.child("cart").removeValue();
+
+                                   // reference.child("order_number").child(id).setValue(ee);
+                                    Order_NO=ThreadLocalRandom.current().nextInt(10000);
                                     total_int=0;
                                     ItemDetails.COUNT=1;
                                     Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
@@ -107,15 +112,14 @@ public class Payment extends AppCompatActivity {
 
                             }else {
                                 if(compareDates(compareStringTwo)){
+
                                     history_item(String.valueOf(currentTime), String.valueOf(total_int),gate,Order_NO,"three");
-                                    FirebaseDatabase db =FirebaseDatabase.getInstance();
-                                    DatabaseReference cart = db.getReference("cart");
-                                    DatabaseReference reference = db.getReference();
                                     reference.child("payment").removeValue();
-                                    cart.removeValue();
-                                    Order_NO+=1;
+                                    reference.child("cart").removeValue();
+                                  //  reference.child("order_number").child(id).setValue(ee);
                                     total_int=0;
                                     ItemDetails.COUNT=1;
+                                    Order_NO= ThreadLocalRandom.current().nextInt(10000);
                                     Toast.makeText(getApplicationContext(),"Order has been placed",Toast.LENGTH_SHORT).show();
                                     startActivity(homepage);
                                     finish();
@@ -148,4 +152,27 @@ public class Payment extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
     }
 
+  /*  public int get_current_order_num(){
+
+        FirebaseDatabase db =FirebaseDatabase.getInstance();
+        DatabaseReference reference = db.getReference();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id = auth.getUid();
+        final String[] order = new String[1];
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                order[0] = snapshot.child("order_number").child(id).getValue().toString();
+                Log.d("order1",snapshot.getKey().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Log.d("order",id);
+
+        return Integer.parseInt(order[0]);
+    }*/
 }

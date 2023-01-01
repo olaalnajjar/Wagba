@@ -1,13 +1,6 @@
 package com.example.wagba.View;
 
 import static com.example.wagba.View.MainActivity.EMAIL;
-import static com.example.wagba.ViewModel.HomeViewModel.on_category_selected;
-import static com.example.wagba.ViewModel.HomeViewModel.setFilterValue;
-import static com.example.wagba.ViewModel.HomeViewModel.set_category_data;
-import static com.example.wagba.ViewModel.HomeViewModel.set_offers_adapter;
-import static com.example.wagba.ViewModel.HomeViewModel.set_offers_data;
-import static com.example.wagba.ViewModel.HomeViewModel.set_store_data;
-import static com.example.wagba.ViewModel.HomeViewModel.set_username;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +10,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.wagba.RoomDatabase.UserDatabase;
+import com.example.wagba.RoomDatabase.UserEntity;
 import com.example.wagba.View.Adapter.CategoryAdapter;
 import com.example.wagba.View.Adapter.OffersAdapter;
 import com.example.wagba.View.Adapter.StoreAdapter;
@@ -39,8 +37,6 @@ import com.example.wagba.Model.CategoriesModel;
 import com.example.wagba.Model.OffersModel;
 import com.example.wagba.Model.StoreModel;
 import com.example.wagba.R;
-import com.example.wagba.RoomDatabase.UserDatabase;
-import com.example.wagba.RoomDatabase.UserEntity;
 import com.example.wagba.ViewModel.HomeViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +47,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -96,7 +93,7 @@ public class HomepageFragment extends Fragment {
     CategoryAdapter categoryAdapter;
     OffersAdapter offersAdapter;
     DatabaseReference myRef;
-
+    HomeViewModel homeViewModel;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -122,7 +119,7 @@ public class HomepageFragment extends Fragment {
         recyclerview_init(view);
 
 
-        on_store_selected(view.getContext());
+        //on_store_selected(view.getContext());
         on_category_selected(categories_recyclerView,view.getContext(),categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);
 
 
@@ -140,6 +137,8 @@ public class HomepageFragment extends Fragment {
         set_category_data( categories_recyclerDataArrayList);
         set_offers_data(offers_recyclerDataArrayList);
 
+        homeViewModel  = new ViewModelProvider(this).get(HomeViewModel.class);
+
 
         // added data from arraylist to adapter class.
         storeAdapter=new StoreAdapter(store_recyclerDataArrayList,view.getContext());
@@ -154,7 +153,14 @@ public class HomepageFragment extends Fragment {
         Store_recyclerView.setLayoutManager(layoutManager);
         Store_recyclerView.setAdapter(storeAdapter);
 
-        set_store_data( myRef,  storeAdapter,store_recyclerDataArrayList);
+        homeViewModel.getAllStores().observe(getViewLifecycleOwner(), new Observer<List<StoreModel>>() {
+            @Override
+            public void onChanged(List<StoreModel> storeModels) {
+                storeAdapter.setStoreList((ArrayList<StoreModel>) storeModels);
+
+            }
+        });
+
 
         categories_recyclerView.setLayoutManager((linearLayoutManager));
         categories_recyclerView.setAdapter(categoryAdapter);
@@ -163,23 +169,6 @@ public class HomepageFragment extends Fragment {
     }
 
 
-    private void on_store_selected(Context context) {
-        // on tap click listener for items inside the recyclerview
-        Store_recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(context, Store_recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-
-                        String name =store_recyclerDataArrayList.get(position).getTitle();
-                        startActivity(details_page_intent.putExtra("name",name));
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-
-                    }
-                })
-        );
-
-    }
 
 
     @Override
@@ -215,6 +204,187 @@ public class HomepageFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public static void set_username(View view) {
+        String name;
+        TextView welcome_message = view.findViewById(R.id.welcome_message);
+        UserDatabase db = Room.databaseBuilder(view.getContext(),
+                UserDatabase.class, "user").allowMainThreadQueries().build();
+        UserEntity user_room = db.userDao().getCurrentUser(EMAIL);
+
+        FirebaseAuth auth;
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+
+        if (user.getDisplayName() == null){
+            name = user_room.getName();
+            welcome_message.setText("Welcome Back "+name+"!");
+        }else{
+            name =  user.getDisplayName().toString();
+            welcome_message.setText("Welcome Back "+name+"!");
+
+        }
+    }
+
+    public static void set_offers_adapter(OffersAdapter offersAdapter,
+                                          RecyclerView offers_recyclerView, Context context) {
+        // setting the automatically scrolling recyclerview for offers
+        final int speedScroll = 3200;
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int count = 0;
+            boolean flag = true;
+            @Override
+            public void run() {
+                if(count < offersAdapter.getItemCount()){
+                    if(count==offersAdapter.getItemCount()-1){
+                        flag = false;
+                    }else if(count == 0){
+                        flag = true;
+                    }
+                    if(flag) count++;
+                    else count--;
+
+                    offers_recyclerView.smoothScrollToPosition(count);
+                    handler.postDelayed(this,speedScroll);
+                }
+            }
+        };
+
+        handler.postDelayed(runnable,speedScroll);
+
+        // setting adapter to recycler view.
+        offers_recyclerView.setLayoutManager(new CustomLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        offers_recyclerView.setAdapter(offersAdapter);
+    }
+
+
+
+    public static void set_offers_data(ArrayList<OffersModel> offers_recyclerDataArrayList) {
+        //offers arraylist
+        offers_recyclerDataArrayList.add(new OffersModel(R.drawable.kfc_offer));
+        offers_recyclerDataArrayList.add(new OffersModel(R.drawable.mcdonalds_offer));
+        offers_recyclerDataArrayList.add(new OffersModel(R.drawable.papajohns_offer));
+        offers_recyclerDataArrayList.add(new OffersModel(R.drawable.pizza_hut_offer));
+        offers_recyclerDataArrayList.add(new OffersModel(R.drawable.papajohns_offer2));
+    }
+
+    public static void set_category_data(ArrayList<CategoriesModel> categories_recyclerDataArrayList) {
+        //category arraylist
+        categories_recyclerDataArrayList.add(new CategoriesModel("Oriental",R.drawable.egypt));
+        categories_recyclerDataArrayList.add(new CategoriesModel("Burgers",R.drawable.hamburger));
+        categories_recyclerDataArrayList.add(new CategoriesModel("Fried Chicken",R.drawable.fried_chicken));
+        categories_recyclerDataArrayList.add(new CategoriesModel("Pizza",R.drawable.pizza));
+        categories_recyclerDataArrayList.add(new CategoriesModel("Crepe",R.drawable.crepe));
+        categories_recyclerDataArrayList.add(new CategoriesModel("Asian",R.drawable.noodles));
+    }
+
+    public static void on_category_selected(RecyclerView categories_recyclerView, Context context,
+                                            ArrayList<CategoriesModel> categories_recyclerDataArrayList,
+                                            ArrayList<StoreModel> store_recyclerDataArrayList,
+                                            StoreAdapter storeAdapter,
+                                            DatabaseReference myRef) {
+        categories_recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, categories_recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+                        String types = categories_recyclerDataArrayList.get(position).getTitle();
+                        CategoriesModel category = categories_recyclerDataArrayList.get(position);
+
+                        if (Objects.equals(types, "Oriental"))
+                        {setFilterValue("Oriental",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+                        else if(Objects.equals(types, "Burgers"))
+                        {setFilterValue("American",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+                        else if (Objects.equals(types, "Fried Chicken"))
+                        {setFilterValue("Fried Chicken",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+                        else if(Objects.equals(types, "Pizza"))
+                        {setFilterValue("Italian",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+                        else if(Objects.equals(types, "Crepe"))
+                        {setFilterValue("Crepes",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+                        else if(Objects.equals(types, "Asian"))
+                        {setFilterValue("Asian",category,categories_recyclerDataArrayList,store_recyclerDataArrayList,storeAdapter,myRef);}
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
+
+
+    }
+
+
+    public static void setFilterValue(String types,
+                                      CategoriesModel category,
+                                      ArrayList<CategoriesModel> categories_recyclerDataArrayList,
+                                      ArrayList<StoreModel> store_recyclerDataArrayList,
+                                      StoreAdapter storeAdapter,
+                                      DatabaseReference myRef){
+
+
+        if(!category.isSelected()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                categories_recyclerDataArrayList.forEach(categoriesModel -> {
+                    categoriesModel.setSelected(false);
+                });
+            }
+            category.setSelected(true);
+
+            store_recyclerDataArrayList.clear();
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                        StoreModel store;
+                        String type = dataSnapshot.child("Tags/1").getValue().toString();
+                        if (type.equals(types)) {
+                            store = dataSnapshot.getValue(StoreModel.class);
+                            store_recyclerDataArrayList.add(store);
+                        }
+                    }
+
+                    storeAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }else{
+            category.setSelected(false);
+
+            store_recyclerDataArrayList.clear();
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                        StoreModel store = dataSnapshot.getValue(StoreModel.class);
+                        store_recyclerDataArrayList.add(store);
+
+                    }
+
+                    storeAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+        }
     }
 
 

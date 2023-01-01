@@ -19,6 +19,7 @@ import com.example.wagba.Model.StoreModel;
 import com.example.wagba.View.Adapter.CartItemAdapter;
 import com.example.wagba.Model.CartItemModel;
 import com.example.wagba.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -78,8 +79,10 @@ public class Cart extends AppCompatActivity {
         set_cart_data( recyclerDataArrayList,adapter);
 
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id = auth.getUid();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = db.getReference("payment");
+        DatabaseReference myRef = db.getReference("payment/"+id);
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
