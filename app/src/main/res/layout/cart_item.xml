@@ -30,27 +30,28 @@
 
     <TextView
         android:id="@+id/dish_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="222dp"
+        android:layout_height="51dp"
         android:layout_marginStart="125dp"
-        android:text="@string/dish_name"
-        android:textColor="@color/dark_blue"
         android:fontFamily="@font/nexa_regular"
-        android:textSize="24sp"
-        android:textAlignment="center" />
+        android:text="@string/dish_name"
+
+        android:textColor="@color/dark_blue"
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/dish_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="125dp"
-        android:textColor="@color/dark_blue"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/nexa_regular"
         android:paddingEnd="10dp"
         android:text="@string/pizza_with_normal_sauce_and_mozzarella_cheese"
-        android:fontFamily="@font/nexa_regular"
+        android:textColor="@color/dark_blue"
         android:textSize="14sp"
         tools:ignore="RtlSymmetry" />
+
     <TextView
         android:id="@+id/dish_price"
         android:layout_width="wrap_content"
