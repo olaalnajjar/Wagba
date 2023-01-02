@@ -5,6 +5,7 @@ public class CategoriesModel {
     private int img_id;
     private boolean selected = false;
 
+
     public String getTitle() {
         return title;
     }

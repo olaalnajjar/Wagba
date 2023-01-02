@@ -41,7 +41,7 @@ public class Payment extends AppCompatActivity {
 
 
     private String compareStringOne = "12:00";
-    private String compareStringTwo = "01:00";
+    private String compareStringTwo = "13:00";
 
 
     public static int Order_NO= ThreadLocalRandom.current().nextInt(10000); ;
@@ -192,18 +192,18 @@ public class Payment extends AppCompatActivity {
         Date dateCompareOne;
         int hour = now.get(Calendar.HOUR);
         int minute = now.get(Calendar.MINUTE);
-        Log.d("time",String.valueOf(hour));
-        Log.d("time",String.valueOf(minute));
 
         date = parseDate(hour + ":" + minute);
         dateCompareOne = parseDate(date_string);
+        Log.d("time",String.valueOf(hour));
+        Log.d("time",String.valueOf(minute));
         if ( date.before( dateCompareOne ) ) {
             return true;
         }
         return false;
 
     }
-    public static final String inputFormat = "HH:mm";
+    public static final String inputFormat = "HH:mm 'Uhr' ";
     public static Date parseDate(String date) {
 
         SimpleDateFormat inputParser = new SimpleDateFormat(inputFormat, Locale.US);

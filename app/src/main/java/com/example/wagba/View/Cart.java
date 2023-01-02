@@ -36,7 +36,7 @@ public class Cart extends AppCompatActivity {
 
     Intent payment_activity;
     private RecyclerView recyclerView;
-    private ArrayList<CartItemModel> recyclerDataArrayList;
+    public static ArrayList<CartItemModel> Cart_recyclerDataArrayList;
     Button payment;
     TextView subtotal ,total;
 
@@ -66,23 +66,23 @@ public class Cart extends AppCompatActivity {
         });
 
         // created new array list..
-        recyclerDataArrayList=new ArrayList<>();
+        Cart_recyclerDataArrayList=new ArrayList<>();
         gif = findViewById(R.id.empty_cart_gif);
         text = findViewById(R.id.empty_cart_text);
 
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         // added data from arraylist to adapter class.
-        CartItemAdapter adapter=new CartItemAdapter(recyclerDataArrayList,this);
+        CartItemAdapter adapter=new CartItemAdapter(Cart_recyclerDataArrayList,this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-//        set_gif(gif,text);
+        set_gif();
 
         cartViewModel.getAllCartItems().observe(this, new Observer<ArrayList<CartItemModel>>() {
             @Override
             public void onChanged(ArrayList<CartItemModel> cartItemModels) {
                 adapter.setCartList((ArrayList<CartItemModel>) cartItemModels);
-//                set_gif(gif,text);
+                set_gif();
             }
         });
 
@@ -135,6 +135,17 @@ public class Cart extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         super.onBackPressed();
+    }
+
+    public void set_gif(){
+
+        if(Cart_recyclerDataArrayList.isEmpty()){
+            gif.setVisibility(View.VISIBLE);
+            text.setVisibility(View.VISIBLE);
+        }else{
+            gif.setVisibility(View.GONE);
+            text.setVisibility(View.GONE);
+        }
     }
 
 }

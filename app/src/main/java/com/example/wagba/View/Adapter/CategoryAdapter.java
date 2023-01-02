@@ -39,7 +39,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Recycl
         CategoriesModel recyclerData = CategoryArrayList.get(position);
         holder.title.setText(recyclerData.getTitle());
         holder.img.setImageResource(recyclerData.getImg_id());
-        holder.card.setOnClickListener(new View.OnClickListener() {
+
+       holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

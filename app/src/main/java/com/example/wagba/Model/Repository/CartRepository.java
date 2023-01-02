@@ -1,5 +1,6 @@
-package com.example.wagba;
+package com.example.wagba.Model.Repository;
 
+import static com.example.wagba.View.Cart.Cart_recyclerDataArrayList;
 import static com.example.wagba.View.Cart.gif;
 import static com.example.wagba.View.Cart.text;
 
@@ -28,11 +29,8 @@ public class CartRepository {
     DatabaseReference database;
     private  MutableLiveData<ArrayList<CartItemModel>> Cart_mutable_livedata = new MutableLiveData<>();
 
-    private ArrayList<CartItemModel> cartModels =new ArrayList<>();
-
     public CartRepository() {
 
-        set_gif();
         FirebaseAuth auth =  FirebaseAuth.getInstance();
         String id = auth.getUid();
         database = FirebaseDatabase.getInstance().getReference("cart/"+id);
@@ -40,13 +38,12 @@ public class CartRepository {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                cartModels.clear();
+                Cart_recyclerDataArrayList.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     CartItemModel cart =dataSnapshot.getValue(CartItemModel.class);
-                    cartModels.add(cart);
+                    Cart_recyclerDataArrayList.add(cart);
                 }
-                Cart_mutable_livedata.setValue(cartModels);
-                set_gif();
+                Cart_mutable_livedata.setValue(Cart_recyclerDataArrayList);
             }
 
             @Override
@@ -56,16 +53,7 @@ public class CartRepository {
         });
 
     }
-    public void set_gif(){
 
-        if(cartModels.isEmpty()){
-            gif.setVisibility(View.VISIBLE);
-            text.setVisibility(View.VISIBLE);
-        }else{
-            gif.setVisibility(View.GONE);
-            text.setVisibility(View.GONE);
-        }
-    }
 
     public LiveData<ArrayList<CartItemModel>> getAllCartItems() {
         return Cart_mutable_livedata;

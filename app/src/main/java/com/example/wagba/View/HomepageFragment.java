@@ -1,5 +1,8 @@
 package com.example.wagba.View;
 
+
+import static android.os.Build.ID;
+
 import static com.example.wagba.View.MainActivity.EMAIL;
 
 import android.annotation.SuppressLint;
@@ -83,7 +86,7 @@ public class HomepageFragment extends Fragment {
 
     StoreAdapter storeAdapter;
     RecyclerView Store_recyclerView;
-    ArrayList<StoreModel> store_recyclerDataArrayList;
+    public static ArrayList<StoreModel> store_recyclerDataArrayList;
     RecyclerView categories_recyclerView;
     ArrayList<OffersModel> offers_recyclerDataArrayList;
     RecyclerView offers_recyclerView;
@@ -334,6 +337,7 @@ public class HomepageFragment extends Fragment {
                 });
             }
             category.setSelected(true);
+
 
             store_recyclerDataArrayList.clear();
             myRef.addValueEventListener(new ValueEventListener() {

@@ -36,7 +36,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static String EMAIL;
     SignInButton signInButton;
     Button loginBtn;
     Intent RegisterIntent, loginIntent;
@@ -48,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     boolean alreadyExecuted= false;
     String emailText ,passwordText;
+    public static int ID;
+    public static  String EMAIL;
+    public static String Google_ID ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +76,13 @@ public class MainActivity extends AppCompatActivity {
         RegisterIntent = new Intent(this, Register.class);
         loginIntent = new Intent(this, Homepage.class);
 
-        google_init();
+
 
         // on click listener calls the sign in with google
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                google_init();
                 SignIn();
             }
         });
@@ -139,22 +142,21 @@ public class MainActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         auth = FirebaseAuth.getInstance();
+        Google_ID= auth.getUid();
+
 
     }
 
     // function that gets the client google intent
     private void SignIn() {
 
-        Log.d("signin","before result start");
         Intent signInIntent = googleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        Log.d("signin","after result start");
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("signin","in result start");
 
         // checks if the data returned is from the correct activity
         if (requestCode == RC_SIGN_IN) {
@@ -164,8 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("signin","calling firebase google login");
-
                 firebaseLoginWithGoogle(account);
 
             } catch (ApiException e) {
@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
     // deals with what is going to happen after the account is chosen on both success account info and on failure account info
     void firebaseLoginWithGoogle(GoogleSignInAccount account) {
         //access token is related to the backend and when a token should be expired
-        Log.d("signin","in fire base login google");
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
@@ -186,26 +185,24 @@ public class MainActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, authResult -> {
                     finish();
                     startActivity(new Intent(getApplicationContext(), Homepage.class));
-                    Log.d("signin","success sign in");
                     MainActivity.this.finish();
 
                 })
                 .addOnFailureListener(this, e -> {
-                    Log.d("signin","failure sign in");
-
                     Toast.makeText(this, " Failure in sign in with this account", Toast.LENGTH_SHORT).show();
                 });
 
     }
 
     void firebase_login(String emailText,String passwordText) {
-
+        Google_ID="";
+        auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    EMAIL= emailText;
                     Toast.makeText(getApplicationContext(), "Login Successfully", Toast.LENGTH_SHORT).show();
-                    EMAIL = emailText;
                     startActivity(loginIntent);
                     finish();
                 } else{
@@ -224,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         userEntity.setNumber("012345678");
         userEntity.setPassword("12345678");
         userEntity.setEmail("test@eng.asu.edu.eg");
-
-
+        //ID=userEntity.getId();
+        //EMAIL= userEntity.getEmail();
         db.userDao().registerUser(userEntity);
     }
     public static Boolean ValidEmail(CharSequence target) {

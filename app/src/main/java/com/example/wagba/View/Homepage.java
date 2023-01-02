@@ -122,9 +122,9 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
 
         HomepageFragment myFragment = (HomepageFragment) getSupportFragmentManager().findFragmentByTag("Home");
         if (myFragment != null && myFragment.isVisible()) {
-            getSupportFragmentManager().clearBackStack(null);
-            auth.signOut();
             super.onBackPressed();
+            getSupportFragmentManager().clearBackStack(null);
+            signOut();
             finish();
         }else {
             getSupportFragmentManager().beginTransaction().replace(R.id.nav_frag, new HomepageFragment(),"Home").commit();
@@ -132,4 +132,6 @@ public class Homepage extends AppCompatActivity implements BottomNavigationView.
         }
 
     }
+
+
 }

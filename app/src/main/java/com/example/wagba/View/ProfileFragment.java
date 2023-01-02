@@ -1,6 +1,9 @@
 package com.example.wagba.View;
 
+
 import static com.example.wagba.View.MainActivity.EMAIL;
+import static com.example.wagba.View.MainActivity.Google_ID;
+import static com.example.wagba.View.MainActivity.ID;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +18,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wagba.R;
 import com.example.wagba.RoomDatabase.UserDatabase;
 import com.example.wagba.RoomDatabase.UserEntity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -78,8 +84,12 @@ public class ProfileFragment extends Fragment {
                 name1=name.getText().toString();
                 email1=email.getText().toString();
                 num1=number.getText().toString();
-                update_user_data(User_id, name1,num1 ,email1,view.getContext());
-                set_profile_data(view.getContext());
+                if(Google_ID=="") {
+                    update_user_data(User_id, name1, num1, email1, view.getContext());
+                    set_profile_data(view.getContext());
+                }else{
+                    Toast.makeText(view.getContext(),"Cannot Change Google Account Information",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -91,17 +101,17 @@ public class ProfileFragment extends Fragment {
     private void set_profile_data(Context context) {
         UserDatabase db = Room.databaseBuilder(context,
                 UserDatabase.class, "user").allowMainThreadQueries().build();
-        if (EMAIL!=null) {
+        if (Google_ID == "") {
             UserEntity user_room = db.userDao().getCurrentUser(EMAIL);
             User_id = user_room.getId();
-
             name.setText(user_room.getName());
             name2.setText(user_room.getName());
             email.setText(user_room.getEmail());
             email2.setText(user_room.getEmail());
             number.setText(user_room.getNumber());
 
-        }else{
+
+        } else{
             FirebaseAuth auth;
             auth = FirebaseAuth.getInstance();
             FirebaseUser user = auth.getCurrentUser();

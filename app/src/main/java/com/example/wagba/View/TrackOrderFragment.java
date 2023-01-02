@@ -113,6 +113,7 @@ public class TrackOrderFragment extends Fragment {
             spinner.setAdapter(ArrAdapt);
 
 
+
         String id  = FirebaseAuth.getInstance().getUid();
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("history_item/"+id);
@@ -120,6 +121,7 @@ public class TrackOrderFragment extends Fragment {
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    array.clear();
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String order = dataSnapshot.getKey().toString();
                         if(!array.contains(order)) {
@@ -141,13 +143,14 @@ public class TrackOrderFragment extends Fragment {
                     myRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            order_number = spinner.getSelectedItem().toString();
+                            if(spinner.getSelectedItem().toString()!=null)
+                            {order_number = spinner.getSelectedItem().toString();}
                             if (snapshot.child(order_number).exists()) {
                                 if (snapshot.child(order_number).child("Status").exists()) {
                                     Status = snapshot.child(order_number).child("Status").getValue().toString();
                                     set_tracking_data(view, "  ");
                                     set_tracking_data(view, Status);
+
                                 }
                             }
                         }

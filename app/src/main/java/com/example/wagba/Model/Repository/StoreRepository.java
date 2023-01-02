@@ -1,4 +1,6 @@
-package com.example.wagba;
+package com.example.wagba.Model.Repository;
+
+import static com.example.wagba.View.HomepageFragment.store_recyclerDataArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -18,7 +20,6 @@ public class StoreRepository {
     DatabaseReference database;
     private MutableLiveData<ArrayList<StoreModel>> Store_mutable_livedata = new MutableLiveData<>();
 
-    private ArrayList<StoreModel> StoreList =new ArrayList<>();
 
     public StoreRepository() {
         database = FirebaseDatabase.getInstance().getReference("Store");
@@ -26,12 +27,12 @@ public class StoreRepository {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                StoreList.clear();
+                store_recyclerDataArrayList.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     StoreModel store =dataSnapshot.getValue(StoreModel.class);
-                    StoreList.add(store);
+                    store_recyclerDataArrayList.add(store);
                 }
-                Store_mutable_livedata.setValue(StoreList);
+                Store_mutable_livedata.setValue(store_recyclerDataArrayList);
 
             }
 
