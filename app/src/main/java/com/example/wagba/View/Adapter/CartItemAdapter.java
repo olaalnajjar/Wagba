@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.wagba.Model.CartItemModel;
+import com.example.wagba.Model.StoreModel;
 import com.example.wagba.R;
 
 import java.util.ArrayList;
@@ -47,6 +48,14 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.Recycl
     public int getItemCount() {
         return CartItemArrayList.size();
     }
+
+
+
+    public void setCartList(ArrayList<CartItemModel> cartItemModels){
+        CartItemArrayList=cartItemModels;
+        notifyDataSetChanged();
+    }
+
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 

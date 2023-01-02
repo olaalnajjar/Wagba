@@ -1,8 +1,6 @@
 package com.example.wagba.View;
 
 import static com.example.wagba.View.Cart.total_int;
-import static com.example.wagba.ViewModel.PaymentViewModel.compareDates;
-import static com.example.wagba.ViewModel.PaymentViewModel.history_item;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -152,27 +150,69 @@ public class Payment extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
     }
 
-  /*  public int get_current_order_num(){
+    public static void history_item(String currentTime, String payment,String delivery, int order,String time){
 
-        FirebaseDatabase db =FirebaseDatabase.getInstance();
-        DatabaseReference reference = db.getReference();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String id = auth.getUid();
-        final String[] order = new String[1];
-        reference.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase db =FirebaseDatabase.getInstance();
+        DatabaseReference history_ref = db.getReference("history_item/"+id+"/"+String.valueOf(order));
+        Log.d("order",String.valueOf(order));
+
+        history_ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                order[0] = snapshot.child("order_number").child(id).getValue().toString();
-                Log.d("order1",snapshot.getKey().toString());
+            public void onDataChange(@NonNull DataSnapshot snapshot0) {
+
+
+                if(!snapshot0.hasChild("order_name")) {
+                    String order_name = snapshot0.getKey().toString();
+                    history_ref.child("order_name").setValue("#" + order_name);
+                    history_ref.child("order_date").setValue("Date: " + currentTime);
+                    history_ref.child("order_price").setValue("Price: " + payment);
+                    history_ref.child("total_price_details").setValue("Total: " + payment + " LE");
+                    history_ref.child("delivery_area").setValue(delivery);
+                    history_ref.child("order_status").setValue("Processing");
+                    history_ref.child("Status").setValue("Order Placed");
+                    history_ref.child("order_time").setValue(time);
+
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-        Log.d("order",id);
+        return;
+    }
 
-        return Integer.parseInt(order[0]);
-    }*/
+
+
+    public static boolean compareDates(String date_string){
+        Calendar now = Calendar.getInstance();
+        Date date;
+        Date dateCompareOne;
+        int hour = now.get(Calendar.HOUR);
+        int minute = now.get(Calendar.MINUTE);
+        Log.d("time",String.valueOf(hour));
+        Log.d("time",String.valueOf(minute));
+
+        date = parseDate(hour + ":" + minute);
+        dateCompareOne = parseDate(date_string);
+        if ( date.before( dateCompareOne ) ) {
+            return true;
+        }
+        return false;
+
+    }
+    public static final String inputFormat = "HH:mm";
+    public static Date parseDate(String date) {
+
+        SimpleDateFormat inputParser = new SimpleDateFormat(inputFormat, Locale.US);
+
+        try {
+            return inputParser.parse(date);
+        } catch (java.text.ParseException e) {
+            return new Date(0);
+        }
+    }
+
 }

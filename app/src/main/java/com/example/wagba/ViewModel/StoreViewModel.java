@@ -1,10 +1,15 @@
 package com.example.wagba.ViewModel;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.wagba.Model.ItemModel;
+import com.example.wagba.Model.StoreModel;
+import com.example.wagba.StoreRepository;
 import com.example.wagba.View.Adapter.ItemAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,30 +19,21 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class StoreViewModel {
+public class StoreViewModel extends AndroidViewModel {
 
+    private StoreRepository repository;
 
-    public static void set_extras_data(String name, ArrayList<ItemModel> recyclerDataArrayList, ItemAdapter adapter) {
+    private static LiveData<ArrayList<StoreModel>> StoreList;
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Store/"+name+"/Dishes");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Log.d("extra",dataSnapshot.getKey().toString());
-                    if (!(dataSnapshot.getKey().toString() =="Extras")){
-
-                        ItemModel item =dataSnapshot.getValue(ItemModel.class);
-                        recyclerDataArrayList.add(item);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
+    public StoreViewModel(@NonNull Application application) {
+        super(application);
+        repository =new StoreRepository();
+        StoreList= repository.getAllStores();
     }
+
+    public static LiveData<ArrayList<StoreModel>> getAllStores() {
+        return StoreList;
+    }
+
+
 }

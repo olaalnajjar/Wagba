@@ -5,10 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -19,10 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wagba.R;
-import com.example.wagba.RoomDatabase.UserDao;
 import com.example.wagba.RoomDatabase.UserDatabase;
 import com.example.wagba.RoomDatabase.UserEntity;
-import com.example.wagba.ViewModel.MainViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         //adds testing data to room database
         if(!alreadyExecuted) {
-            MainViewModel.setUserData(getApplicationContext());
+            setUserData(getApplicationContext());
             alreadyExecuted = true;
         }
 
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 read_data();
-                if(MainViewModel.validate_fields(emailText,passwordText,getApplicationContext())){
+                if(validate_fields(emailText,passwordText,getApplicationContext())){
                     firebase_login(emailText,passwordText);
                 }
             }
@@ -217,6 +215,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static void setUserData(Context context){
+        UserDatabase db = Room.databaseBuilder(context,
+                UserDatabase.class, "user").allowMainThreadQueries().build();
 
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName("Ola Elnaggar");
+        userEntity.setNumber("012345678");
+        userEntity.setPassword("12345678");
+        userEntity.setEmail("test@eng.asu.edu.eg");
+
+
+        db.userDao().registerUser(userEntity);
+    }
+    public static Boolean ValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    public static boolean validate_fields(String emailText,String passwordText,Context context){
+        if (emailText.isEmpty() || passwordText.isEmpty()) {
+            Toast.makeText(context, "Fill all fields please", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!ValidEmail(emailText)) {
+            Toast.makeText(context, "Email Entered is Incorrect", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {return true;}
+    }
 
 }

@@ -1,9 +1,10 @@
 package com.example.wagba.View;
 
-import static com.example.wagba.ViewModel.CartViewModel.set_cart_data;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Database;
@@ -19,6 +20,7 @@ import com.example.wagba.Model.StoreModel;
 import com.example.wagba.View.Adapter.CartItemAdapter;
 import com.example.wagba.Model.CartItemModel;
 import com.example.wagba.R;
+import com.example.wagba.ViewModel.CartViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,13 +36,14 @@ public class Cart extends AppCompatActivity {
 
     Intent payment_activity;
     private RecyclerView recyclerView;
-    private static ArrayList<CartItemModel> recyclerDataArrayList;
+    private ArrayList<CartItemModel> recyclerDataArrayList;
     Button payment;
     TextView subtotal ,total;
 
-    static GifImageView gif;
-    static TextView text ;
+    public static GifImageView gif;
+    public static TextView text ;
     public static int total_int=0;
+    CartViewModel cartViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,25 +61,36 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(payment_activity);
-                Cart.this.finish();
+                finish();
             }
         });
 
         // created new array list..
         recyclerDataArrayList=new ArrayList<>();
+        gif = findViewById(R.id.empty_cart_gif);
+        text = findViewById(R.id.empty_cart_text);
 
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
         // added data from arraylist to adapter class.
         CartItemAdapter adapter=new CartItemAdapter(recyclerDataArrayList,this);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+//        set_gif(gif,text);
+
+        cartViewModel.getAllCartItems().observe(this, new Observer<ArrayList<CartItemModel>>() {
+            @Override
+            public void onChanged(ArrayList<CartItemModel> cartItemModels) {
+                adapter.setCartList((ArrayList<CartItemModel>) cartItemModels);
+//                set_gif(gif,text);
+            }
+        });
 
 
-        gif = findViewById(R.id.empty_cart_gif);
-        text = findViewById(R.id.empty_cart_text);
 
-        set_gif();
-        set_cart_data( recyclerDataArrayList,adapter);
+
+
+        //set_cart_data( recyclerDataArrayList,adapter);
 
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -115,13 +129,12 @@ public class Cart extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
     }
 
-    public static void set_gif(){
-        if(recyclerDataArrayList.isEmpty()){
-            gif.setVisibility(View.VISIBLE);
-            text.setVisibility(View.VISIBLE);
-        }else{
-            gif.setVisibility(View.GONE);
-            text.setVisibility(View.GONE);
-        }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
+
 }

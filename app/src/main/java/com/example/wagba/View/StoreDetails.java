@@ -1,7 +1,5 @@
 package com.example.wagba.View;
 
-import static com.example.wagba.ViewModel.StoreViewModel.set_extras_data;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -123,5 +121,28 @@ StoreDetails extends AppCompatActivity {
 
     }
 
+    public static void set_extras_data(String name, ArrayList<ItemModel> recyclerDataArrayList, ItemAdapter adapter) {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Store/"+name+"/Dishes");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Log.d("extra",dataSnapshot.getKey().toString());
+                    if (!(dataSnapshot.getKey().toString() =="Extras")){
+
+                        ItemModel item =dataSnapshot.getValue(ItemModel.class);
+                        recyclerDataArrayList.add(item);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+    }
 
 }

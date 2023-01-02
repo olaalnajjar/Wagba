@@ -3,6 +3,7 @@ package com.example.wagba.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,8 +18,6 @@ import com.example.wagba.R;
 import com.example.wagba.RoomDatabase.UserDao;
 import com.example.wagba.RoomDatabase.UserDatabase;
 import com.example.wagba.RoomDatabase.UserEntity;
-import com.example.wagba.View.MainActivity;
-import com.example.wagba.ViewModel.RegisterViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,7 +48,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 read_text();
-                if(RegisterViewModel.validate_fields(email_text,password_text,name_text, number_text,getApplicationContext())){
+                if(validate_fields(email_text,password_text,name_text, number_text,getApplicationContext())){
                     register_firebase();}
 
             }
@@ -82,7 +81,7 @@ public class Register extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
 
-                    RegisterViewModel.room_db(name_text,email_text,number_text,password_text,getApplicationContext());
+                    room_db(name_text,email_text,number_text,password_text,getApplicationContext());
                     Toast.makeText(getApplicationContext(), "User Registered Successfully", Toast.LENGTH_SHORT).show();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -98,5 +97,50 @@ public class Register extends AppCompatActivity {
                 }
             });
     }
+    private static Boolean validateInput(UserEntity userEntity){
+        if(userEntity.getName().isEmpty() ||
+                userEntity.getPassword().isEmpty() ||
+                userEntity.getEmail().isEmpty() ||
+                userEntity.getNumber().isEmpty()){
+            return false;
+        }
+        return true;
+    }
 
+    public static void room_db(String name , String email, String number, String password, Context context){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(name);
+        userEntity.setEmail(email);
+        userEntity.setNumber(number);
+        userEntity.setPassword(password);
+        if(validateInput(userEntity)){
+            //insert data
+            UserDatabase userDatabase = UserDatabase.getUserDatabase(context);
+            UserDao userDao = userDatabase.userDao();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    //Registering user
+                    userDao.registerUser(userEntity);
+                }
+            }).start();
+        }
+
+
+    }
+
+    public static Boolean ValidEmail(CharSequence target){
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+
+    public static boolean validate_fields(String emailText,String passwordText, String numberText,String nameText,Context context){
+        if(nameText.isEmpty() || emailText.isEmpty() || numberText.isEmpty() || passwordText.isEmpty()){
+            Toast.makeText(context, "Fill all fields please", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (!ValidEmail(emailText)){
+            Toast.makeText(context, "Email Entered is Incorrect", Toast.LENGTH_SHORT).show();
+            return false;
+        }else {return true;}
+    }
 }

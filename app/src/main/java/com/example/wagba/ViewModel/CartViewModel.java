@@ -1,52 +1,29 @@
 package com.example.wagba.ViewModel;
 
-import static com.example.wagba.View.Cart.set_gif;
-
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
+import com.example.wagba.CartRepository;
 import com.example.wagba.Model.CartItemModel;
-import com.example.wagba.View.Adapter.CartItemAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
-public class CartViewModel {
+public class CartViewModel extends AndroidViewModel {
+    private CartRepository repository;
 
-    public static void set_cart_data(ArrayList<CartItemModel> recyclerDataArrayList, CartItemAdapter adapter) {
-
-        FirebaseAuth auth =  FirebaseAuth.getInstance();
-        String id = auth.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("cart/"+id);
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-
-                    CartItemModel cartItemModel =dataSnapshot.getValue(CartItemModel.class);
-                    recyclerDataArrayList.add(cartItemModel);
-                }
-
-                adapter.notifyDataSetChanged();
-                set_gif();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
+    private static LiveData<ArrayList<CartItemModel>>  CartItemList;
+    public CartViewModel(@NonNull Application application) {
+        super(application);
+        repository= new CartRepository();
+        CartItemList= repository.getAllCartItems();
     }
+
+    public static LiveData<ArrayList<CartItemModel>> getAllCartItems() {
+        return CartItemList;
+    }
+
+
 }

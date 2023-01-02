@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -37,7 +36,7 @@ import com.example.wagba.Model.CategoriesModel;
 import com.example.wagba.Model.OffersModel;
 import com.example.wagba.Model.StoreModel;
 import com.example.wagba.R;
-import com.example.wagba.ViewModel.HomeViewModel;
+import com.example.wagba.ViewModel.StoreViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -93,7 +92,7 @@ public class HomepageFragment extends Fragment {
     CategoryAdapter categoryAdapter;
     OffersAdapter offersAdapter;
     DatabaseReference myRef;
-    HomeViewModel homeViewModel;
+    StoreViewModel storeViewModel;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -137,7 +136,7 @@ public class HomepageFragment extends Fragment {
         set_category_data( categories_recyclerDataArrayList);
         set_offers_data(offers_recyclerDataArrayList);
 
-        homeViewModel  = new ViewModelProvider(this).get(HomeViewModel.class);
+        storeViewModel  = new ViewModelProvider(this).get(StoreViewModel.class);
 
 
         // added data from arraylist to adapter class.
@@ -153,7 +152,7 @@ public class HomepageFragment extends Fragment {
         Store_recyclerView.setLayoutManager(layoutManager);
         Store_recyclerView.setAdapter(storeAdapter);
 
-        homeViewModel.getAllStores().observe(getViewLifecycleOwner(), new Observer<List<StoreModel>>() {
+        storeViewModel.getAllStores().observe(getViewLifecycleOwner(), new Observer<List<StoreModel>>() {
             @Override
             public void onChanged(List<StoreModel> storeModels) {
                 storeAdapter.setStoreList((ArrayList<StoreModel>) storeModels);
