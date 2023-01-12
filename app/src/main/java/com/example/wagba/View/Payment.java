@@ -186,6 +186,7 @@ public class Payment extends AppCompatActivity {
 
 
 
+
     public static boolean compareDates(String date_string){
         Calendar now = Calendar.getInstance();
         Date date;
